@@ -6,7 +6,7 @@
 package ticoviaje.Controlador;
 
 import java.util.Observer;
-import ticoviaje.Objetos.Bus;
+import ticoviaje.Modelos.Bus;
 
 /**
  *

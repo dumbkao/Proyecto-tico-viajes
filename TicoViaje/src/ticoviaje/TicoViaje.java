@@ -4,25 +4,16 @@
  * and open the template in the editor.
  */
 package ticoviaje;
+import javax.swing.WindowConstants;
+import ticoviaje.Vista.*;
 
-import javax.swing.JFrame;
-
-/**
- *
- * @author hilla
- */
 public class TicoViaje {
-
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        
-        JFrame frame= new JFrame();    
-        frame.setLocationRelativeTo(null);
-        frame.setSize(500,500);
-        frame.setVisible(true);
-
+        FlotillaVista vista = new FlotillaVista();
+        // BusVista vista = new BusVista();
+        vista.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        vista.setLocationRelativeTo(null);
+        vista.setResizable(false);
+        vista.setVisible(true);
     }
-    
 }

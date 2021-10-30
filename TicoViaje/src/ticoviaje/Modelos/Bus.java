@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ticoviaje.Objetos;
+package ticoviaje.Modelos;
 
 import java.util.Observable;
 import java.util.Observer;
+import ticoviaje.Objetos.Chofer;
 
 /**
  *
@@ -34,6 +35,8 @@ public class Bus extends Observable{
 
     public void setEstado(String estado) {
         this.estado = estado;
+        setChanged();
+        notifyObservers("Actualizando Bus");
     }
 
     public String getPlaca() {
@@ -42,6 +45,8 @@ public class Bus extends Observable{
 
     public void setPlaca(String placa) {
         this.placa = placa;
+        setChanged();
+        notifyObservers("Actualizando Bus");
     }
 
     public int getNumeroUnico() {
@@ -50,6 +55,8 @@ public class Bus extends Observable{
 
     public void setNumeroUnico(int numeroUnico) {
         this.numeroUnico = numeroUnico;
+        setChanged();
+        notifyObservers("Actualizando Bus");
     }
 
     public int getCapacidad() {
@@ -58,6 +65,8 @@ public class Bus extends Observable{
 
     public void setCapacidad(int capacidad) {
         this.capacidad = capacidad;
+        setChanged();
+        notifyObservers("Actualizando Bus");
     }
 
     public Chofer getChofer() {
@@ -66,6 +75,8 @@ public class Bus extends Observable{
 
     public void setChofer(Chofer chofer) {
         this.chofer = chofer;
+        setChanged();
+        notifyObservers("Actualizando Bus");
     }
     public void agregarObservador(Observer observador){
         addObserver(observador);
