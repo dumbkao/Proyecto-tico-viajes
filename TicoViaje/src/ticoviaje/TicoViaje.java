@@ -7,13 +7,15 @@ package ticoviaje;
 import javax.swing.WindowConstants;
 import ticoviaje.Vista.*;
 
+
 public class TicoViaje {
     public static void main(String[] args) {
-        FlotillaVista vista = new FlotillaVista();
+        /*FlotillaVista vista = new FlotillaVista();
         // BusVista vista = new BusVista();
         vista.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         vista.setLocationRelativeTo(null);
         vista.setResizable(false);
-        vista.setVisible(true);
+        vista.setVisible(true);*/
+        
     }
 }

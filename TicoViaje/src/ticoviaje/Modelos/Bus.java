@@ -1,32 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ticoviaje.Modelos;
 
 import java.util.Observable;
 import java.util.Observer;
 import ticoviaje.Objetos.Chofer;
 
-/**
- *
- * @author hilla
- */
-public class Bus extends Observable{
+public class Bus extends Observable {
 
     private String estado, placa;
 
-    private int numeroUnico, capacidad; 
+    private int numeroUnico, capacidad;
 
-    Chofer chofer; 
-    
-    public Bus(){
-        this.estado="";
-        this.placa="";
-        this.numeroUnico=0;
-        this.capacidad=0;
-        this.chofer= new Chofer();
+    Chofer chofer;
+
+    public Bus() {
+        this.estado = "";
+        this.placa = "";
+        this.numeroUnico = 0;
+        this.capacidad = 0;
+        this.chofer = new Chofer();
     }
 
     public String getEstado() {
@@ -78,10 +69,10 @@ public class Bus extends Observable{
         setChanged();
         notifyObservers("Actualizando Bus");
     }
-    public void agregarObservador(Observer observador){
+
+    public void agregarObservador(Observer observador) {
         addObserver(observador);
         setChanged();
-        notifyObservers();
+        notifyObservers("Actualizando Bus");
     }
-    
 }
