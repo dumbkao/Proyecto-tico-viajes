@@ -22,20 +22,12 @@ public class ViajeControlador {
         modelo.agregarEncomienda(encomienda);
     }
 
-    public String getPuntoSalida() {
-        return modelo.getPuntoSalida();
+    public String getRuta() {
+        return modelo.getRuta();
     }
 
-    public void setPuntoSalida(String puntoSalida) {
-        modelo.setPuntoSalida(puntoSalida);
-    }
-
-    public String getPuntoDestino() {
-        return modelo.getPuntoDestino();
-    }
-
-    public void setPuntoDestino(String puntoDestino) {
-        modelo.setPuntoDestino(puntoDestino);
+    public void setRuta(String puntoSalida) {
+        modelo.setRuta(puntoSalida);
     }
 
     public Date getFecha() {
@@ -46,20 +38,12 @@ public class ViajeControlador {
         modelo.getFecha();
     }
 
-    public String getHoraSalida() {
-        return modelo.getHoraSalida();
+    public String getHorario() {
+        return modelo.getHorario();
     }
 
-    public void setHoraSalida(String horaSalida) {
-        modelo.setHoraSalida(horaSalida);
-    }
-
-    public String getHoraDestino() {
-        return modelo.getHoraDestino();
-    }
-
-    public void setHoraDestino(String horaDestino) {
-        modelo.setHoraDestino(horaDestino);
+    public void setHorario(String horaSalida) {
+        modelo.setHorario(horaSalida);
     }
 
     public int getKilometros() {
