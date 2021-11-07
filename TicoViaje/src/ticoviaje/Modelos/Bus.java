@@ -2,22 +2,25 @@ package ticoviaje.Modelos;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 import ticoviaje.Objetos.Chofer;
 
 public class Bus extends Observable {
 
     private String estado, placa;
 
-    private int numeroUnico, capacidad;
+    private int numeroUnico;
+    private int capacidad;
 
     Chofer chofer;
 
     public Bus() {
-        this.estado = "";
-        this.placa = "";
-        this.numeroUnico = 0;
-        this.capacidad = 0;
+        this.estado = "Disponible";
+        this.placa = placaAleatoria();
+        this.numeroUnico=0;
+        this.capacidad = 11;
         this.chofer = new Chofer();
+       
     }
 
     public String getEstado() {
@@ -32,6 +35,23 @@ public class Bus extends Observable {
 
     public String getPlaca() {
         return placa;
+    }
+
+    public static String placaAleatoria() {
+
+        char[] chars = "0123456789abcdefghijklmnopqrstuvwxyz".toCharArray();
+
+        int charsLength = chars.length;
+
+        Random random = new Random();
+
+        StringBuilder buffer = new StringBuilder();
+
+        for (int i = 0; i < 10; i++) {
+            buffer.append(chars[random.nextInt(charsLength)]);
+        }
+
+        return (buffer.toString());
     }
 
     public void setPlaca(String placa) {

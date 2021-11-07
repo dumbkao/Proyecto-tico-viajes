@@ -26,16 +26,12 @@ public class TicketVista extends javax.swing.JFrame implements Observer {
         pnlPrincipal = new javax.swing.JPanel();
         labelPrecio = new javax.swing.JLabel();
         precio = new javax.swing.JLabel();
-        labelPSalida = new javax.swing.JLabel();
-        puntoSalida = new javax.swing.JLabel();
-        labelPDestino = new javax.swing.JLabel();
-        puntoDestino = new javax.swing.JLabel();
+        LabelRuta = new javax.swing.JLabel();
+        ruta = new javax.swing.JLabel();
         labelFecha = new javax.swing.JLabel();
         fecha = new javax.swing.JLabel();
-        labelHoraSalida = new javax.swing.JLabel();
-        horaSalida = new javax.swing.JLabel();
-        labelHoraDestino = new javax.swing.JLabel();
-        HoraDestino = new javax.swing.JLabel();
+        labelHorario = new javax.swing.JLabel();
+        Horario = new javax.swing.JLabel();
         labelBus = new javax.swing.JLabel();
         numero_bus = new javax.swing.JLabel();
         labelChofer = new javax.swing.JLabel();
@@ -60,17 +56,11 @@ public class TicketVista extends javax.swing.JFrame implements Observer {
         precio.setText(controlador.getViajeUsuario().getCosto() + "");
         pnlPrincipal.add(precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 80, 30));
 
-        labelPSalida.setText("Punto Salida:");
-        pnlPrincipal.add(labelPSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
+        LabelRuta.setText("Ruta:");
+        pnlPrincipal.add(LabelRuta, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
 
-        puntoSalida.setText(controlador.getViajeUsuario().getPuntoSalida());
-        pnlPrincipal.add(puntoSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 80, 40));
-
-        labelPDestino.setText("Punto Destino:");
-        pnlPrincipal.add(labelPDestino, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
-
-        puntoDestino.setText(controlador.getViajeUsuario().getPuntoDestino());
-        pnlPrincipal.add(puntoDestino, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 80, 40));
+        ruta.setText(controlador.getViajeUsuario().getRuta());
+        pnlPrincipal.add(ruta, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 80, 40));
 
         labelFecha.setText("Fecha:");
         pnlPrincipal.add(labelFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, -1, -1));
@@ -78,17 +68,11 @@ public class TicketVista extends javax.swing.JFrame implements Observer {
         fecha.setText(controlador.getViajeUsuario().getFecha() + "");
         pnlPrincipal.add(fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, -1, -1));
 
-        labelHoraSalida.setText("Hora salida:");
-        pnlPrincipal.add(labelHoraSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, -1, -1));
+        labelHorario.setText("Horario:");
+        pnlPrincipal.add(labelHorario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, -1, -1));
 
-        horaSalida.setText(controlador.getViajeUsuario().getHoraSalida());
-        pnlPrincipal.add(horaSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, -1, -1));
-
-        labelHoraDestino.setText("Hora destino:");
-        pnlPrincipal.add(labelHoraDestino, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, -1, -1));
-
-        HoraDestino.setText(controlador.getViajeUsuario().getHoraDestino());
-        pnlPrincipal.add(HoraDestino, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 180, -1, -1));
+        Horario.setText(controlador.getViajeUsuario().getHorario());
+        pnlPrincipal.add(Horario, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 180, -1, -1));
 
         labelBus.setText("Bus :");
         pnlPrincipal.add(labelBus, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, -1, -1));
@@ -161,33 +145,29 @@ public class TicketVista extends javax.swing.JFrame implements Observer {
 
     private TicketControlador controlador;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel HoraDestino;
+    private javax.swing.JLabel Horario;
+    private javax.swing.JLabel LabelRuta;
     private javax.swing.JLabel chofer;
     private javax.swing.JLabel fecha;
-    private javax.swing.JLabel horaSalida;
     private javax.swing.JLabel kilometros;
     private javax.swing.JLabel labelAsiento1;
     private javax.swing.JLabel labelBus;
     private javax.swing.JLabel labelChofer;
     private javax.swing.JLabel labelCliente;
     private javax.swing.JLabel labelFecha;
-    private javax.swing.JLabel labelHoraDestino;
-    private javax.swing.JLabel labelHoraSalida;
+    private javax.swing.JLabel labelHorario;
     private javax.swing.JLabel labelKM1;
-    private javax.swing.JLabel labelPDestino;
-    private javax.swing.JLabel labelPSalida;
     private javax.swing.JLabel labelPrecio;
     private javax.swing.JLabel nombre_cliente;
     private javax.swing.JLabel numero_asiento;
     private javax.swing.JLabel numero_bus;
     private javax.swing.JPanel pnlPrincipal;
     private javax.swing.JLabel precio;
-    private javax.swing.JLabel puntoDestino;
-    private javax.swing.JLabel puntoSalida;
+    private javax.swing.JLabel ruta;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void update(Observable o, Object o1) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //thrlabelHorarioedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

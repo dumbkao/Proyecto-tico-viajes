@@ -4,28 +4,68 @@
  */
 package ticoviaje.Vista;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import ticoviaje.Modelos.Bus;
+import ticoviaje.Modelos.Flotilla;
 import ticoviaje.Modelos.Viaje;
-import ticoviaje.Objetos.ConjuntoDias;
+import ticoviaje.Objetos.Chofer;
 import ticoviaje.Objetos.ConjuntoViajes;
-import ticoviaje.Objetos.Dia;
-import ticoviaje.Objetos.Ruta;
 
 /**
  *
  * @author sh4dow18
  */
-public class TicoViajesVista extends javax.swing.JFrame {
+public final class TicoViajesVista extends javax.swing.JFrame {
+
+    private ConjuntoViajes conjuntoViaje;
+    private Flotilla flotilla;
 
     /**
      * Creates new form TicoViajesVista
      */
     public TicoViajesVista() {
+        this.conjuntoViaje = new ConjuntoViajes();
+        this.flotilla = new Flotilla();
+        agregarBuses();
         agregarViajes();
         initComponents();
+    }
+
+    public void agregarViajes() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2021);
+        cal.set(Calendar.MONTH, Calendar.NOVEMBER);
+        cal.set(Calendar.DAY_OF_MONTH, 7);
+
+        agregarViaje("Alajuela-San Jose", cal, "12md-2pm", 5, 1000, 0);
+
+    }
+
+    public void agregarViaje(String ruta, Calendar fecha, String horario, int kilometros, int costo, int bus) {
+        Viaje viaje = new Viaje();
+        viaje.setRuta(ruta);
+        viaje.setFecha(fecha.getTime());
+        viaje.setHorario(horario);
+        viaje.setKilometros(kilometros);
+        viaje.setCosto(costo);
+        viaje.setUnidad(flotilla.getEspecifico(bus));
+        conjuntoViaje.add(viaje);
+    }
+
+    public void agregarBuses() {
+
+        String nombres[] = {"Juanito", "Andres", "Ramses", "Hillary", "Rosa", "Pedrito", "Sofia", "Eduardo", "Jaime", "Jose", "Maria", "Marco", "Lucia", "Jair", "Noel", "Rachel", "Emanuel", "Abigail", "Gerardo", "Wilson"};
+        for (int i = 0; i < 20; i++) {
+            Chofer chofer = new Chofer();
+            chofer.setNombre(nombres[i]);
+            Bus bus = new Bus();
+            bus.setChofer(chofer);
+            flotilla.add(bus);
+        }
     }
 
     /**
@@ -88,6 +128,11 @@ public class TicoViajesVista extends javax.swing.JFrame {
         String nombre = JOptionPane.showInputDialog(null, "Digite su nombre:", "Nombre", JOptionPane.QUESTION_MESSAGE);
         if (nombre != null && !nombre.equals("")) {
 
+            ArrayList<String> listaRuta = conjuntoViaje.getRutas();
+           
+            String ruta = (String) JOptionPane.showInputDialog(null, "Elija la ruta que desea", "RUTAS", JOptionPane.QUESTION_MESSAGE, null, listaRuta.toArray(), listaRuta.get(0));
+             ArrayList<String> listaFecha=conjuntoViaje.getDiasRuta(ruta);
+            String fecha = (String) JOptionPane.showInputDialog(null, "Elija la fecha que desea", "FECHAS", JOptionPane.QUESTION_MESSAGE, null, listaFecha.toArray(), listaFecha.get(0));
         } else {
             JOptionPane.showMessageDialog(null, "Debe digitar un nombre valido", "ERROR", JOptionPane.ERROR_MESSAGE);
         }

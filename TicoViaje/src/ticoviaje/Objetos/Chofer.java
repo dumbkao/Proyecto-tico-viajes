@@ -5,6 +5,8 @@
  */
 package ticoviaje.Objetos;
 
+import java.util.Random;
+
 /**
  *
  * @author hilla
@@ -16,8 +18,8 @@ public class Chofer {
     
     public Chofer(){
         this.nombre="";
-        this.licencia="";
-        this.edad=0;
+        this.licencia=licenciaAleatoria();
+        this.edad=edadAleatoria();
     }
 
     public String getNombre() {
@@ -31,6 +33,21 @@ public class Chofer {
     public String getLicencia() {
         return licencia;
     }
+    public static String licenciaAleatoria(){
+                char[] chars = "0123456789abcdefghijklmnopqrstuvwxyz".toCharArray();
+
+        int charsLength = chars.length;
+
+        Random random = new Random();
+
+        StringBuilder buffer = new StringBuilder();
+
+        for (int i = 0; i < 10; i++) {
+            buffer.append(chars[random.nextInt(charsLength)]);
+        }
+
+        return ("c2"+buffer.toString());
+    }
 
     public void setLicencia(String licencia) {
         this.licencia = licencia;
@@ -38,6 +55,10 @@ public class Chofer {
 
     public int getEdad() {
         return edad;
+    }
+    public static int edadAleatoria(){
+        
+     return (int) Math.floor(Math.random()*(40-18+1)+18);
     }
 
     public void setEdad(int edad) {

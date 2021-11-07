@@ -29,4 +29,7 @@ public class Flotilla extends Observable {
         setChanged();
         notifyObservers("Se Agrego un Observador en la Flotilla");
     }
+    public Bus getEspecifico(int index){
+        return flotilla.get(index);
+    }
 }

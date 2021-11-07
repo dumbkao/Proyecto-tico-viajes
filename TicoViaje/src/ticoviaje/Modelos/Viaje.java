@@ -91,9 +91,11 @@ public class Viaje extends Observable {
     }
 
     public void setUnidad(Bus unidad) {
+        if(!unidad.equals(null)){
         this.unidad = unidad;
         setChanged();
         notifyObservers("Actualizando Viaje");
+        }
     }
 
     public int getCantEncomiendas() {
