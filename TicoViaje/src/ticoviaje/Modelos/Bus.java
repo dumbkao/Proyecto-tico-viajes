@@ -1,26 +1,41 @@
 package ticoviaje.Modelos;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
+import ticoviaje.Objetos.Asiento;
 import ticoviaje.Objetos.Chofer;
 
 public class Bus extends Observable {
 
     private String estado, placa;
-
     private int numeroUnico;
     private int capacidad;
-
-    Chofer chofer;
+    private ArrayList<Asiento> asientos;
+    private Chofer chofer;
 
     public Bus() {
         this.estado = "Disponible";
         this.placa = placaAleatoria();
-        this.numeroUnico=0;
+        this.numeroUnico = 0;
         this.capacidad = 11;
         this.chofer = new Chofer();
-       
+        this.asientos = new ArrayList();
+        for (int i = 0; i < 11; i++) {
+            Asiento asiento = new Asiento();
+            asientos.add(asiento);
+        }
+    }
+    
+    public ArrayList<Asiento> getAsientos() {
+        return asientos;
+    }
+
+    public void setAsientos(ArrayList<Asiento> asientos) {
+        this.asientos = asientos;
+        setChanged();
+        notifyObservers("Actualizando Bus");
     }
 
     public String getEstado() {

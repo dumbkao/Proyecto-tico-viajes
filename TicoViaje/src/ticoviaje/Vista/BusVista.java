@@ -5,6 +5,7 @@
  */
 package ticoviaje.Vista;
 
+import javax.swing.ImageIcon;
 import ticoviaje.Controlador.BusControlador;
 
 /**
@@ -12,17 +13,34 @@ import ticoviaje.Controlador.BusControlador;
  * @author hilla
  */
 public class BusVista extends javax.swing.JFrame {
-
-    /**
-     * Creates new form BusDesign
-     */
+    
+    private ImageIcon icono_rojo;
+    private ImageIcon icono_verde;
+    private boolean seleccionado;
+    
     public BusVista() {
+        controlador = new BusControlador();
+        icono_rojo = new ImageIcon("src/ticoviaje/Imagen/asientoOcupado.png");
+        icono_verde = new ImageIcon("src/ticoviaje/Imagen/asientoDisponible.png");
+        seleccionado = false;
         initComponents();
     }
 
-    public void iniciar() {
+    public void iniciar(String ruta, String dia, String horario) {
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        setLocationRelativeTo(null);
         setVisible(true);
-        controlador = new BusControlador();
+        Ruta.setText(ruta);
+        Dia.setText(dia);
+        Horario.setText(horario);
+    }
+
+    public BusControlador getControlador() {
+        return controlador;
+    }
+
+    public void setControlador(BusControlador controlador) {
+        this.controlador = controlador;
     }
 
     @SuppressWarnings("unchecked")
@@ -41,10 +59,19 @@ public class BusVista extends javax.swing.JFrame {
         Asiento2 = new javax.swing.JButton();
         Asiento1 = new javax.swing.JButton();
         Asiento9 = new javax.swing.JButton();
+        Unidad = new javax.swing.JLabel();
+        LabelRuta = new javax.swing.JLabel();
+        LabelDia = new javax.swing.JLabel();
+        LabelHorario = new javax.swing.JLabel();
+        Ruta = new javax.swing.JLabel();
+        Dia = new javax.swing.JLabel();
+        Horario = new javax.swing.JLabel();
         LabelFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setEnabled(false);
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -147,8 +174,45 @@ public class BusVista extends javax.swing.JFrame {
         });
         jPanel1.add(Asiento9, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 330, -1, -1));
 
+        Unidad.setBackground(new java.awt.Color(0, 0, 0));
+        Unidad.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+        Unidad.setForeground(new java.awt.Color(0, 0, 0));
+        Unidad.setText("Unidad");
+        jPanel1.add(Unidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 60, -1, -1));
+
+        LabelRuta.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        LabelRuta.setForeground(new java.awt.Color(0, 0, 0));
+        LabelRuta.setText("Ruta:");
+        jPanel1.add(LabelRuta, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 150, -1, -1));
+
+        LabelDia.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        LabelDia.setForeground(new java.awt.Color(0, 0, 0));
+        LabelDia.setText("Dia:");
+        jPanel1.add(LabelDia, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 190, -1, -1));
+
+        LabelHorario.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        LabelHorario.setForeground(new java.awt.Color(0, 0, 0));
+        LabelHorario.setText("Horario:");
+        jPanel1.add(LabelHorario, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 230, -1, -1));
+
+        Ruta.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        Ruta.setForeground(new java.awt.Color(0, 0, 0));
+        Ruta.setText("horario");
+        jPanel1.add(Ruta, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 230, -1, -1));
+
+        Dia.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        Dia.setForeground(new java.awt.Color(0, 0, 0));
+        Dia.setText("ruta");
+        jPanel1.add(Dia, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 150, -1, -1));
+
+        Horario.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        Horario.setForeground(new java.awt.Color(0, 0, 0));
+        Horario.setText("dia");
+        jPanel1.add(Horario, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 190, -1, -1));
+
+        LabelFondo.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         LabelFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticoviaje/Imagen/bus.png"))); // NOI18N
-        jPanel1.add(LabelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -4, -1, 440));
+        jPanel1.add(LabelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 530, 440));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -165,7 +229,12 @@ public class BusVista extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void Asiento1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Asiento1MouseClicked
-
+        if (controlador.getAsientos().get(0).isDisponible() == true) {
+            Asiento1.setIcon(icono_rojo);
+        }
+        else {
+            Asiento1.setIcon(icono_verde);
+        }
     }//GEN-LAST:event_Asiento1MouseClicked
 
     private void Asiento2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Asiento2MouseClicked
@@ -259,7 +328,14 @@ public class BusVista extends javax.swing.JFrame {
     private javax.swing.JButton Asiento7;
     private javax.swing.JButton Asiento8;
     private javax.swing.JButton Asiento9;
+    private javax.swing.JLabel Dia;
+    private javax.swing.JLabel Horario;
+    private javax.swing.JLabel LabelDia;
     private javax.swing.JLabel LabelFondo;
+    private javax.swing.JLabel LabelHorario;
+    private javax.swing.JLabel LabelRuta;
+    private javax.swing.JLabel Ruta;
+    private javax.swing.JLabel Unidad;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,6 +1,5 @@
 package ticoviaje.Controlador;
 
-import java.util.Date;
 import java.util.Observer;
 import ticoviaje.Modelos.Bus;
 import ticoviaje.Modelos.Viaje;
@@ -30,7 +29,7 @@ public class ViajeControlador {
         modelo.setRuta(puntoSalida);
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return modelo.getFecha();
     }
 

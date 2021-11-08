@@ -9,7 +9,7 @@ public class Viaje extends Observable {
 
     private final ConjuntoEncomienda encomiendas;
     private String ruta;
-    private Date fecha;
+    private String fecha;
     private String horario;
     private int kilometros;
     private int costo;
@@ -18,7 +18,7 @@ public class Viaje extends Observable {
     public Viaje() {
         this.encomiendas = new ConjuntoEncomienda();
         this.ruta = "";
-        this.fecha = null;
+        this.fecha = "";
         this.horario = "";
         this.kilometros = 0;
         this.costo = 0;
@@ -56,11 +56,11 @@ public class Viaje extends Observable {
         notifyObservers("Actualizando Viaje");
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
         setChanged();
         notifyObservers("Actualizando Viaje");

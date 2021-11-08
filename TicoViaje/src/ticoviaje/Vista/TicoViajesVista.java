@@ -6,8 +6,6 @@ package ticoviaje.Vista;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import ticoviaje.Modelos.Bus;
 import ticoviaje.Modelos.Flotilla;
@@ -36,19 +34,16 @@ public final class TicoViajesVista extends javax.swing.JFrame {
     }
 
     public void agregarViajes() {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 2021);
-        cal.set(Calendar.MONTH, Calendar.NOVEMBER);
-        cal.set(Calendar.DAY_OF_MONTH, 7);
-
-        agregarViaje("Alajuela-San Jose", cal, "12md-2pm", 5, 1000, 0);
-
+        agregarViaje("Alajuela-San Jose", "Domingo", "12md - 2pm", 5, 1000, 0);
+        agregarViaje("Alajuela-San Jose", "Lunes", "2:30pm - 3:30pm", 5, 1000, 0);
+        agregarViaje("San Jose-Alajuela", "Domingo", "6pm - 7pm", 5, 1000, 0);
+        agregarViaje("San Jose-Alajuela", "Domingo", "10am - 11am", 5, 1000, 0);
     }
 
-    public void agregarViaje(String ruta, Calendar fecha, String horario, int kilometros, int costo, int bus) {
+    public void agregarViaje(String ruta, String fecha, String horario, int kilometros, int costo, int bus) {
         Viaje viaje = new Viaje();
         viaje.setRuta(ruta);
-        viaje.setFecha(fecha.getTime());
+        viaje.setFecha(fecha);
         viaje.setHorario(horario);
         viaje.setKilometros(kilometros);
         viaje.setCosto(costo);
@@ -66,6 +61,12 @@ public final class TicoViajesVista extends javax.swing.JFrame {
             bus.setChofer(chofer);
             flotilla.add(bus);
         }
+    }
+    
+    public void iniciar() {
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
 
     /**
@@ -127,12 +128,17 @@ public final class TicoViajesVista extends javax.swing.JFrame {
     private void TiquetesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TiquetesActionPerformed
         String nombre = JOptionPane.showInputDialog(null, "Digite su nombre:", "Nombre", JOptionPane.QUESTION_MESSAGE);
         if (nombre != null && !nombre.equals("")) {
-
             ArrayList<String> listaRuta = conjuntoViaje.getRutas();
-           
             String ruta = (String) JOptionPane.showInputDialog(null, "Elija la ruta que desea", "RUTAS", JOptionPane.QUESTION_MESSAGE, null, listaRuta.toArray(), listaRuta.get(0));
-             ArrayList<String> listaFecha=conjuntoViaje.getDiasRuta(ruta);
+            ArrayList<String> listaFecha = conjuntoViaje.getDiasRuta(ruta);
             String fecha = (String) JOptionPane.showInputDialog(null, "Elija la fecha que desea", "FECHAS", JOptionPane.QUESTION_MESSAGE, null, listaFecha.toArray(), listaFecha.get(0));
+            ArrayList<String> listaHorarios = conjuntoViaje.getHorarioDiaRuta(ruta, fecha);
+            String horario = (String) JOptionPane.showInputDialog(null, "Elija el Horario que desea", "HORARIOS", JOptionPane.QUESTION_MESSAGE, null, listaHorarios.toArray(), listaHorarios.get(0));
+            BusVista vista = new BusVista();
+            vista.getControlador().setDatos(flotilla.getEspecifico(0));
+            setVisible(false);
+            vista.iniciar(ruta, fecha, horario);
+            
         } else {
             JOptionPane.showMessageDialog(null, "Debe digitar un nombre valido", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
