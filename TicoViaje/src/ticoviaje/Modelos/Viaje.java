@@ -1,6 +1,5 @@
 package ticoviaje.Modelos;
 
-import java.util.Date;
 import java.util.Observable;
 import ticoviaje.Objetos.ConjuntoEncomienda;
 import ticoviaje.Objetos.Encomienda;
@@ -91,10 +90,10 @@ public class Viaje extends Observable {
     }
 
     public void setUnidad(Bus unidad) {
-        if(!unidad.equals(null)){
-        this.unidad = unidad;
-        setChanged();
-        notifyObservers("Actualizando Viaje");
+        if (!unidad.equals(null)) {
+            this.unidad = unidad;
+            setChanged();
+            notifyObservers("Actualizando Viaje");
         }
     }
 

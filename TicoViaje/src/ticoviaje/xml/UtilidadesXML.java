@@ -1,4 +1,4 @@
-package xml;
+package ticoviaje.xml;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +16,6 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
-
 
 public class UtilidadesXML {
 
@@ -39,43 +38,43 @@ public class UtilidadesXML {
             throw e;
         }
     }
-    
+
     public static Document crearDocumento()
             throws ParserConfigurationException {
         return UtilidadesXML.crearDocumento(null);
     }
-    
-    public static Document crearXMLDocumento(File file){
+
+    public static Document crearXMLDocumento(File file) {
         DocumentBuilderFactory constructores = null;
         DocumentBuilder constructor = null;
-        Document fileXML = null;        
+        Document fileXML = null;
         try {
             constructores = DocumentBuilderFactory.newInstance();
             constructor = constructores.newDocumentBuilder();
-            if(file == null){
+            if (file == null) {
                 fileXML = constructor.newDocument();
                 System.out.println("El archivo no existe");
             } else {
                 System.out.println("El archivo ya existe");
-                fileXML =  constructor.parse(file);
+                fileXML = constructor.parse(file);
             }
         } catch (ParserConfigurationException ex) {
-            System.err.println("Error crearDocumento..."+ex.getMessage());
+            System.err.println("Error crearDocumento..." + ex.getMessage());
         } catch (SAXException ex) {
-            System.err.println("Error crearDocumento..."+ex.getMessage());
+            System.err.println("Error crearDocumento..." + ex.getMessage());
         } catch (IOException ex) {
-            System.err.println("Error crearDocumento..."+ex.getMessage());
+            System.err.println("Error crearDocumento..." + ex.getMessage());
         }
         return fileXML;
-            
-    }  
-    
+
+    }
+
     public static Element crearNodo(Document doc, String etiqueta, String dato) {
         Element r = doc.createElement(etiqueta);
         r.appendChild(doc.createTextNode(dato));
         return r;
     }
-    
+
     public static void guardarArchivoXML(Document doc, String nombreArchivo) {
         try {
             Source origen = new DOMSource(doc);
@@ -88,7 +87,8 @@ public class UtilidadesXML {
         } catch (TransformerConfigurationException e) {
         } catch (TransformerException e) {
         }
-    }   
+    }
+
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Singleton">
     public static UtilidadesXML obtenerInstancia() {

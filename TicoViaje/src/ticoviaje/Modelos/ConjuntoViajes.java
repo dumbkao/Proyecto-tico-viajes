@@ -1,9 +1,11 @@
-package ticoviaje.Objetos;
+package ticoviaje.Modelos;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 import ticoviaje.Modelos.Viaje;
 
-public class ConjuntoViajes {
+public class ConjuntoViajes extends Observable {
 
     private ArrayList<Viaje> viajes;
 
@@ -17,10 +19,14 @@ public class ConjuntoViajes {
 
     public void setViajes(ArrayList<Viaje> viajes) {
         this.viajes = viajes;
+        setChanged();
+        notifyObservers("Actualizando Bus");
     }
 
     public void add(Viaje viaje) {
         viajes.add(viaje);
+        setChanged();
+        notifyObservers("Actualizando Bus");
     }
 
     public Viaje obtenerEspecifico(int index) {
@@ -61,5 +67,11 @@ public class ConjuntoViajes {
             }
         }
         return horarios;
+    }
+
+    public void agregarObservador(Observer observador) {
+        addObserver(observador);
+        setChanged();
+        notifyObservers("Actualizando Bus");
     }
 }

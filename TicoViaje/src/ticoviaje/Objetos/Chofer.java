@@ -1,25 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ticoviaje.Objetos;
 
 import java.util.Random;
 
-/**
- *
- * @author hilla
- */
 public class Chofer {
 
     private String nombre, licencia;
     private int edad;
-    
-    public Chofer(){
-        this.nombre="";
-        this.licencia=licenciaAleatoria();
-        this.edad=edadAleatoria();
+
+    public Chofer() {
+        this.nombre = "";
+        this.licencia = licenciaAleatoria();
+        this.edad = edadAleatoria();
     }
 
     public String getNombre() {
@@ -33,8 +24,9 @@ public class Chofer {
     public String getLicencia() {
         return licencia;
     }
-    public static String licenciaAleatoria(){
-                char[] chars = "0123456789abcdefghijklmnopqrstuvwxyz".toCharArray();
+
+    public static String licenciaAleatoria() {
+        char[] chars = "0123456789abcdefghijklmnopqrstuvwxyz".toCharArray();
 
         int charsLength = chars.length;
 
@@ -46,7 +38,7 @@ public class Chofer {
             buffer.append(chars[random.nextInt(charsLength)]);
         }
 
-        return ("c2"+buffer.toString());
+        return ("c2" + buffer.toString());
     }
 
     public void setLicencia(String licencia) {
@@ -56,9 +48,9 @@ public class Chofer {
     public int getEdad() {
         return edad;
     }
-    public static int edadAleatoria(){
-        
-     return (int) Math.floor(Math.random()*(40-18+1)+18);
+
+    public static int edadAleatoria() {
+        return (int) Math.floor(Math.random() * (40 - 18 + 1) + 18);
     }
 
     public void setEdad(int edad) {

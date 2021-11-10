@@ -13,8 +13,8 @@ public class ConjuntoEncomienda {
     public void add(Encomienda encomienda) {
         encomiendas.add(encomienda);
     }
-    
-    public int size(){
+
+    public int size() {
         return encomiendas.size();
     }
 

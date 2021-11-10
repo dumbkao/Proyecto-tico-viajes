@@ -8,7 +8,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import ticoviaje.Objetos.Asiento;
 import ticoviaje.Objetos.Chofer;
-import xml.UtilidadesXML;
+import ticoviaje.xml.UtilidadesXML;
 
 public class Bus extends Observable {
 

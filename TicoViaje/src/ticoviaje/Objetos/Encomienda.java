@@ -9,8 +9,8 @@ public class Encomienda {
     private int precioPorPeso;
     private String personaEntrega;
     private String personaRetira;
-    private Date horaFecha;
-    private boolean estadoViaje;
+    private String horaFecha;
+    private String estadoViaje;
 
     public Encomienda() {
         this.peso = 0;
@@ -18,8 +18,8 @@ public class Encomienda {
         this.precioPorPeso = 0;
         this.personaEntrega = "";
         this.personaRetira = "";
-        this.horaFecha = null;
-        this.estadoViaje = false;
+        this.horaFecha = "";
+        this.estadoViaje = "";
     }
 
     public int getPeso() {
@@ -62,19 +62,19 @@ public class Encomienda {
         this.personaRetira = personaRetira;
     }
 
-    public Date getHoraFecha() {
+    public String getHoraFecha() {
         return horaFecha;
     }
 
-    public void setHoraFecha(Date horaFecha) {
+    public void setHoraFecha(String horaFecha) {
         this.horaFecha = horaFecha;
     }
 
-    public boolean isEstadoViaje() {
+    public String isEstadoViaje() {
         return estadoViaje;
     }
 
-    public void setEstadoViaje(boolean estadoViaje) {
+    public void setEstadoViaje(String estadoViaje) {
         this.estadoViaje = estadoViaje;
     }
 
@@ -82,7 +82,5 @@ public class Encomienda {
     public String toString() {
         return "Encomienda{" + "peso=" + peso + ", codigo=" + codigo + ", precioPorPeso=" + precioPorPeso + ", personaEntrega=" + personaEntrega + ", personaRetira=" + personaRetira + ", horaFecha=" + horaFecha + ", estadoViaje=" + estadoViaje + '}';
     }
-    
-    
 
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ticoviaje.Vista;
 
 import java.util.ArrayList;
@@ -13,12 +8,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import ticoviaje.Controlador.BusControlador;
-import xml.UtilidadesXML;
+import ticoviaje.xml.UtilidadesXML;
 
-/**
- *
- * @author hilla
- */
 public class BusVista extends javax.swing.JFrame {
 
     private BusControlador controlador;
@@ -77,8 +68,8 @@ public class BusVista extends javax.swing.JFrame {
         try {
             Document d = UtilidadesXML.crearDocumento();
             Node r = d.createElement("DatosPersonales");
-            r.appendChild(controlador.toXML(d));
-            
+
+            //r.appendChild(controlador.toXML(d));
             d.appendChild(r);
             UtilidadesXML.guardarArchivoXML(d, "personas.xml");
         } catch (ParserConfigurationException ex) {
@@ -341,9 +332,6 @@ public class BusVista extends javax.swing.JFrame {
         vista.iniciar();
     }//GEN-LAST:event_botonAceptarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

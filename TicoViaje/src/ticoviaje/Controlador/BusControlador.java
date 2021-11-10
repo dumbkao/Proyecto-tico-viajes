@@ -2,8 +2,6 @@ package ticoviaje.Controlador;
 
 import java.util.ArrayList;
 import java.util.Observer;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import ticoviaje.Modelos.Bus;
 import ticoviaje.Objetos.Asiento;
 import ticoviaje.Objetos.Chofer;
@@ -12,12 +10,12 @@ public class BusControlador {
 
     private Bus datos;
 
-    public void setDatos(Bus datos) {
-        this.datos = datos;
-    }
-
     public BusControlador() {
         datos = new Bus();
+    }
+
+    public void setDatos(Bus datos) {
+        this.datos = datos;
     }
 
     public void agregarObservador(Observer observador) {
@@ -63,7 +61,7 @@ public class BusControlador {
     public void setChofer(Chofer chofer) {
         datos.setChofer(chofer);
     }
-    
+
     public ArrayList<Asiento> getAsientos() {
         return datos.getAsientos();
     }
@@ -71,5 +69,4 @@ public class BusControlador {
     public void setAsientos(ArrayList<Asiento> asientos) {
         datos.setAsientos(asientos);
     }
-  
 }
