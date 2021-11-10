@@ -2,6 +2,8 @@ package ticoviaje.Controlador;
 
 import java.util.ArrayList;
 import java.util.Observer;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import ticoviaje.Modelos.Bus;
 import ticoviaje.Objetos.Asiento;
 import ticoviaje.Objetos.Chofer;
@@ -69,4 +71,5 @@ public class BusControlador {
     public void setAsientos(ArrayList<Asiento> asientos) {
         datos.setAsientos(asientos);
     }
+  
 }

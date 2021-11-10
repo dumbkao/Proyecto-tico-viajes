@@ -64,7 +64,7 @@ public final class TicoViajesVista extends javax.swing.JFrame {
     }
     
     public void iniciar() {
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
     }
@@ -134,7 +134,7 @@ public final class TicoViajesVista extends javax.swing.JFrame {
             String fecha = (String) JOptionPane.showInputDialog(null, "Elija la fecha que desea", "FECHAS", JOptionPane.QUESTION_MESSAGE, null, listaFecha.toArray(), listaFecha.get(0));
             ArrayList<String> listaHorarios = conjuntoViaje.getHorarioDiaRuta(ruta, fecha);
             String horario = (String) JOptionPane.showInputDialog(null, "Elija el Horario que desea", "HORARIOS", JOptionPane.QUESTION_MESSAGE, null, listaHorarios.toArray(), listaHorarios.get(0));
-            BusVista vista = new BusVista();
+            BusVista vista = new BusVista(nombre);
             vista.getControlador().setDatos(flotilla.getEspecifico(0));
             setVisible(false);
             vista.iniciar(ruta, fecha, horario);

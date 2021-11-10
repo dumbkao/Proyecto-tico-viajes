@@ -13,10 +13,20 @@ public class Asiento {
 
     private int idAsiento;
     private boolean disponible;
+    private String propetario;
 
     public Asiento() {
         this.idAsiento = 0;
         this.disponible = true;
+        this.propetario="";
+    }
+
+    public String getPropetario() {
+        return propetario;
+    }
+
+    public void setPropetario(String propetario) {
+        this.propetario = propetario;
     }
 
     public int getIdAsiento() {

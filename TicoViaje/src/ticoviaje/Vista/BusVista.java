@@ -5,24 +5,32 @@
  */
 package ticoviaje.Vista;
 
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import ticoviaje.Controlador.BusControlador;
+import xml.UtilidadesXML;
 
 /**
  *
  * @author hilla
  */
 public class BusVista extends javax.swing.JFrame {
-    
+
+    private BusControlador controlador;
     private ImageIcon icono_rojo;
     private ImageIcon icono_verde;
-    private boolean seleccionado;
-    
-    public BusVista() {
+    private static String propietario;
+
+    public BusVista(String pro) {
         controlador = new BusControlador();
         icono_rojo = new ImageIcon("src/ticoviaje/Imagen/asientoOcupado.png");
         icono_verde = new ImageIcon("src/ticoviaje/Imagen/asientoDisponible.png");
-        seleccionado = false;
+        propietario = pro;
         initComponents();
     }
 
@@ -33,6 +41,7 @@ public class BusVista extends javax.swing.JFrame {
         Ruta.setText(ruta);
         Dia.setText(dia);
         Horario.setText(horario);
+        verificarBotones();
     }
 
     public BusControlador getControlador() {
@@ -41,6 +50,40 @@ public class BusVista extends javax.swing.JFrame {
 
     public void setControlador(BusControlador controlador) {
         this.controlador = controlador;
+    }
+
+    public void verificarBotones() {
+        ArrayList<JButton> botones = new ArrayList();
+        botones.add(Asiento1);
+        botones.add(Asiento2);
+        botones.add(Asiento3);
+        botones.add(Asiento4);
+        botones.add(Asiento5);
+        botones.add(Asiento6);
+        botones.add(Asiento7);
+        botones.add(Asiento8);
+        botones.add(Asiento9);
+        botones.add(Asiento10);
+        botones.add(Asiento11);
+
+        for (int i = 0; i < 11; i++) {
+            if (controlador.getAsientos().get(i).isDisponible() == false) {
+                botones.get(i).setIcon(icono_rojo);
+            }
+        }
+    }
+
+    private void guardarBuses() {
+        try {
+            Document d = UtilidadesXML.crearDocumento();
+            Node r = d.createElement("DatosPersonales");
+            r.appendChild(controlador.toXML(d));
+            
+            d.appendChild(r);
+            UtilidadesXML.guardarArchivoXML(d, "personas.xml");
+        } catch (ParserConfigurationException ex) {
+
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -66,6 +109,7 @@ public class BusVista extends javax.swing.JFrame {
         Ruta = new javax.swing.JLabel();
         Dia = new javax.swing.JLabel();
         Horario = new javax.swing.JLabel();
+        botonAceptar = new javax.swing.JButton();
         LabelFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -210,6 +254,15 @@ public class BusVista extends javax.swing.JFrame {
         Horario.setText("dia");
         jPanel1.add(Horario, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 190, -1, -1));
 
+        botonAceptar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        botonAceptar.setText("Aceptar asientos");
+        botonAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAceptarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(botonAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 300, -1, -1));
+
         LabelFondo.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         LabelFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticoviaje/Imagen/bus.png"))); // NOI18N
         jPanel1.add(LabelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 530, 440));
@@ -229,11 +282,15 @@ public class BusVista extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void Asiento1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Asiento1MouseClicked
-        if (controlador.getAsientos().get(0).isDisponible() == true) {
+
+        if (controlador.getAsientos().get(0).getPropetario().equals("")) {
             Asiento1.setIcon(icono_rojo);
-        }
-        else {
+            controlador.getAsientos().get(0).setPropetario(propietario);
+            controlador.getAsientos().get(0).setDisponible(false);
+        } else if (controlador.getAsientos().get(0).getPropetario().equals(propietario)) {
             Asiento1.setIcon(icono_verde);
+            controlador.getAsientos().get(0).setPropetario("");
+            controlador.getAsientos().get(0).setDisponible(true);
         }
     }//GEN-LAST:event_Asiento1MouseClicked
 
@@ -277,6 +334,13 @@ public class BusVista extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_Asiento11MouseClicked
 
+    private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
+        JOptionPane.showMessageDialog(null, "Los asientos han sido seleccionados");
+        setVisible(false);
+        TicoViajesVista vista = new TicoViajesVista();
+        vista.iniciar();
+    }//GEN-LAST:event_botonAceptarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -308,13 +372,12 @@ public class BusVista extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BusVista().setVisible(true);
+                new BusVista(propietario).setVisible(true);
             }
         });
 
     }
 
-    private BusControlador controlador;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Asiento1;
@@ -336,6 +399,7 @@ public class BusVista extends javax.swing.JFrame {
     private javax.swing.JLabel LabelRuta;
     private javax.swing.JLabel Ruta;
     private javax.swing.JLabel Unidad;
+    private javax.swing.JButton botonAceptar;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
