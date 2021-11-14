@@ -3,20 +3,24 @@ package ticoviaje.Vista;
 import java.util.Observable;
 import java.util.Observer;
 import ticoviaje.Controlador.TicketControlador;
+import ticoviaje.Modelos.Viaje;
 
 public class TicketVista extends javax.swing.JFrame implements Observer {
 
-    public TicketVista() {
+    public TicketVista() {    
         this.controlador = new TicketControlador();
-        initComponents();
-        iniciar();
+        
+        
     }
 
-    public void iniciar() {
+    public void iniciar(Viaje viaje) {
+         controlador.agregarObservador(this);
+        controlador.setViajeUsuario(viaje);
+        initComponents();
+        setDefaultCloseOperation(HIDE_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
-        setVisible(true);
-        controlador.agregarObservador(this);
+         setVisible(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -42,6 +46,7 @@ public class TicketVista extends javax.swing.JFrame implements Observer {
         numero_asiento = new javax.swing.JLabel();
         labelCliente = new javax.swing.JLabel();
         nombre_cliente = new javax.swing.JLabel();
+        nota = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Vista Ticket");
@@ -95,7 +100,7 @@ public class TicketVista extends javax.swing.JFrame implements Observer {
         labelAsiento1.setText("Asiento:");
         pnlPrincipal.add(labelAsiento1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 50, -1));
 
-        numero_asiento.setText(controlador.getAsientoUsuario().getIdAsiento() + "");
+        numero_asiento.setText(controlador.getAsientoUsuario());
         pnlPrincipal.add(numero_asiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 10, 90, -1));
 
         labelCliente.setText("Cliente:");
@@ -103,6 +108,9 @@ public class TicketVista extends javax.swing.JFrame implements Observer {
 
         nombre_cliente.setText(controlador.getNombreCliente());
         pnlPrincipal.add(nombre_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 40, -1, -1));
+
+        nota.setText("NOTA: Realice una captura de pantalla");
+        pnlPrincipal.add(nota, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 260, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -118,30 +126,7 @@ public class TicketVista extends javax.swing.JFrame implements Observer {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public static void main(String args[]) {
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TicketVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TicketVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TicketVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TicketVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TicketVista().setVisible(true);
-            }
-        });
-    }
 
     private TicketControlador controlador;
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -159,6 +144,7 @@ public class TicketVista extends javax.swing.JFrame implements Observer {
     private javax.swing.JLabel labelKM1;
     private javax.swing.JLabel labelPrecio;
     private javax.swing.JLabel nombre_cliente;
+    private javax.swing.JLabel nota;
     private javax.swing.JLabel numero_asiento;
     private javax.swing.JLabel numero_bus;
     private javax.swing.JPanel pnlPrincipal;

@@ -7,6 +7,7 @@ import java.util.Random;
 import javax.swing.JOptionPane;
 import ticoviaje.Objetos.Asiento;
 import ticoviaje.Objetos.Chofer;
+import ticoviaje.Vista.TicketVista;
 import ticoviaje.Vista.TicoViajesVista;
 
 public class Bus extends Observable {
@@ -17,6 +18,7 @@ public class Bus extends Observable {
     private ArrayList<Asiento> asientos;
     private Chofer chofer;
     private String propietario;
+    private Viaje viaje;
 
     public Bus() {
         this.estado = "Disponible";
@@ -25,11 +27,20 @@ public class Bus extends Observable {
         this.capacidad = 11;
         this.chofer = new Chofer();
         this.asientos = new ArrayList();
+        this.viaje= null;
         this.propietario = "";
         for (int i = 0; i < 11; i++) {
             Asiento asiento = new Asiento();
             asientos.add(asiento);
         }
+    }
+
+    public Viaje getViaje() {
+        return viaje;
+    }
+
+    public void setViaje(Viaje viaje) {
+        this.viaje = viaje;
     }
 
     public ArrayList<Asiento> getAsientos() {
@@ -117,6 +128,10 @@ public class Bus extends Observable {
 
     public void aceptarAsientos() {
         JOptionPane.showMessageDialog(null, "Los asientos han sido seleccionados");
+        TicketVista vista = new TicketVista();
+        vista.iniciar(viaje);
+    }
+    public void regresar(){
         TicoViajesVista vista = new TicoViajesVista();
         vista.iniciar();
     }

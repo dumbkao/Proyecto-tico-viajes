@@ -2,9 +2,13 @@ package ticoviaje.Controlador;
 
 import java.util.ArrayList;
 import java.util.Observer;
+import javax.swing.JOptionPane;
 import ticoviaje.Modelos.Bus;
+import ticoviaje.Modelos.Viaje;
 import ticoviaje.Objetos.Asiento;
 import ticoviaje.Objetos.Chofer;
+import ticoviaje.Vista.TicketVista;
+import ticoviaje.Vista.TicoViajesVista;
 
 public class BusControlador {
 
@@ -68,5 +72,21 @@ public class BusControlador {
 
     public void setAsientos(ArrayList<Asiento> asientos) {
         datos.setAsientos(asientos);
+    }
+
+    public void aceptarAsientos() {
+        datos.aceptarAsientos();
+    }
+
+    public void regresar() {
+        datos.regresar();
+    }
+
+    public Viaje getViaje() {
+        return datos.getViaje();
+    }
+
+    public void setViaje(Viaje viaje) {
+        datos.setViaje(viaje);
     }
 }

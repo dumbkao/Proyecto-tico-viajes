@@ -21,12 +21,12 @@ public class TicketControlador {
         datos.setViajeUsuario(viajeUsuario);
     }
 
-    public Asiento getAsientoUsuario() {
-        return datos.getAsientoUsuario();
+    public String getAsientoUsuario() {
+        return datos.getAsientos();
     }
 
-    public void setAsientoUsuario(Asiento asientoUsuario) {
-        datos.setAsientoUsuario(asientoUsuario);
+    public void setAsientoUsuario(String asientos) {
+        datos.setAsientos(asientos);
     }
 
     public String getNombreCliente() {

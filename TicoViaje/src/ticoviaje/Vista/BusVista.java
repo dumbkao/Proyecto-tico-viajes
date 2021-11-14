@@ -10,42 +10,45 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import ticoviaje.Controlador.BusControlador;
+import ticoviaje.Modelos.Viaje;
 import ticoviaje.xml.UtilidadesXML;
 
 public class BusVista extends javax.swing.JFrame implements Observer {
-
+    
     private BusControlador controlador;
     private ImageIcon icono_rojo;
     private ImageIcon icono_verde;
-//    private static String propietario;
-
-    public BusVista(String pro) {
+    private static String propietario;
+    private Viaje viaje;
+    
+    public BusVista(String pro, Viaje viaje) {
         controlador = new BusControlador();
         icono_rojo = new ImageIcon("src/ticoviaje/Imagen/asientoOcupado.png");
         icono_verde = new ImageIcon("src/ticoviaje/Imagen/asientoDisponible.png");
-//        propietario = pro;
+        propietario = pro;
+        this.viaje = viaje;
         initComponents();
     }
-
-    public void iniciar(String ruta, String dia, String horario) {
+    
+    public void iniciar() {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
-        Ruta.setText(ruta);
-        Dia.setText(dia);
-        Horario.setText(horario);
+        Ruta.setText(viaje.getRuta());
+        Dia.setText(viaje.getFecha());
+        Horario.setText(viaje.getHorario());
         verificarBotones();
         controlador.agregarObservador(this);
     }
-
+    
     public BusControlador getControlador() {
         return controlador;
     }
-
+    
     public void setControlador(BusControlador controlador) {
         this.controlador = controlador;
     }
-
+    
     public void verificarBotones() {
         ArrayList<JButton> botones = new ArrayList();
         botones.add(Asiento1);
@@ -59,27 +62,14 @@ public class BusVista extends javax.swing.JFrame implements Observer {
         botones.add(Asiento9);
         botones.add(Asiento10);
         botones.add(Asiento11);
-
+        
         for (int i = 0; i < 11; i++) {
             if (controlador.getAsientos().get(i).isDisponible() == false) {
                 botones.get(i).setIcon(icono_rojo);
             }
         }
     }
-
-    private void guardarBuses() {
-        try {
-            Document d = UtilidadesXML.crearDocumento();
-            Node r = d.createElement("DatosPersonales");
-
-            //r.appendChild(controlador.toXML(d));
-            d.appendChild(r);
-            UtilidadesXML.guardarArchivoXML(d, "personas.xml");
-        } catch (ParserConfigurationException ex) {
-
-        }
-    }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -104,6 +94,7 @@ public class BusVista extends javax.swing.JFrame implements Observer {
         Dia = new javax.swing.JLabel();
         Horario = new javax.swing.JLabel();
         botonAceptar = new javax.swing.JButton();
+        regresar = new javax.swing.JButton();
         LabelFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -257,6 +248,15 @@ public class BusVista extends javax.swing.JFrame implements Observer {
         });
         jPanel1.add(botonAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 300, -1, -1));
 
+        regresar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        regresar.setText("Regresar");
+        regresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                regresarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(regresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 350, -1, -1));
+
         LabelFondo.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         LabelFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticoviaje/Imagen/bus.png"))); // NOI18N
         jPanel1.add(LabelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 530, 440));
@@ -276,7 +276,7 @@ public class BusVista extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void Asiento1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Asiento1MouseClicked
-
+        
         if (controlador.getAsientos().get(0).getPropetario().equals("")) {
             Asiento1.setIcon(icono_rojo);
             controlador.getAsientos().get(0).setPropetario(propietario);
@@ -289,49 +289,134 @@ public class BusVista extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_Asiento1MouseClicked
 
     private void Asiento2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Asiento2MouseClicked
-        // TODO add your handling code here:
+        if (controlador.getAsientos().get(1).getPropetario().equals("")) {
+            Asiento2.setIcon(icono_rojo);
+            controlador.getAsientos().get(1).setPropetario(propietario);
+            controlador.getAsientos().get(1).setDisponible(false);
+        } else if (controlador.getAsientos().get(1).getPropetario().equals(propietario)) {
+            Asiento2.setIcon(icono_verde);
+            controlador.getAsientos().get(1).setPropetario("");
+            controlador.getAsientos().get(1).setDisponible(true);
+        }
     }//GEN-LAST:event_Asiento2MouseClicked
 
     private void Asiento4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Asiento4MouseClicked
-        // TODO add your handling code here:
+        if (controlador.getAsientos().get(3).getPropetario().equals("")) {
+            Asiento4.setIcon(icono_rojo);
+            controlador.getAsientos().get(3).setPropetario(propietario);
+            controlador.getAsientos().get(3).setDisponible(false);
+        } else if (controlador.getAsientos().get(3).getPropetario().equals(propietario)) {
+            Asiento4.setIcon(icono_verde);
+            controlador.getAsientos().get(3).setPropetario("");
+            controlador.getAsientos().get(3).setDisponible(true);
+        }
     }//GEN-LAST:event_Asiento4MouseClicked
 
     private void Asiento6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Asiento6MouseClicked
-        // TODO add your handling code here:
+        if (controlador.getAsientos().get(5).getPropetario().equals("")) {
+            Asiento6.setIcon(icono_rojo);
+            controlador.getAsientos().get(5).setPropetario(propietario);
+            controlador.getAsientos().get(5).setDisponible(false);
+        } else if (controlador.getAsientos().get(5).getPropetario().equals(propietario)) {
+            Asiento6.setIcon(icono_verde);
+            controlador.getAsientos().get(5).setPropetario("");
+            controlador.getAsientos().get(5).setDisponible(true);
+        }
     }//GEN-LAST:event_Asiento6MouseClicked
 
     private void Asiento8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Asiento8MouseClicked
-        // TODO add your handling code here:
+        if (controlador.getAsientos().get(7).getPropetario().equals("")) {
+            Asiento8.setIcon(icono_rojo);
+            controlador.getAsientos().get(7).setPropetario(propietario);
+            controlador.getAsientos().get(7).setDisponible(false);
+        } else if (controlador.getAsientos().get(7).getPropetario().equals(propietario)) {
+            Asiento8.setIcon(icono_verde);
+            controlador.getAsientos().get(7).setPropetario("");
+            controlador.getAsientos().get(7).setDisponible(true);
+        }
     }//GEN-LAST:event_Asiento8MouseClicked
 
     private void Asiento10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Asiento10MouseClicked
-        // TODO add your handling code here:
+        if (controlador.getAsientos().get(9).getPropetario().equals("")) {
+            Asiento10.setIcon(icono_rojo);
+            controlador.getAsientos().get(9).setPropetario(propietario);
+            controlador.getAsientos().get(9).setDisponible(false);
+        } else if (controlador.getAsientos().get(9).getPropetario().equals(propietario)) {
+            Asiento10.setIcon(icono_verde);
+            controlador.getAsientos().get(9).setPropetario("");
+            controlador.getAsientos().get(9).setDisponible(true);
+        }
     }//GEN-LAST:event_Asiento10MouseClicked
 
     private void Asiento3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Asiento3MouseClicked
-        // TODO add your handling code here:
+        if (controlador.getAsientos().get(2).getPropetario().equals("")) {
+            Asiento3.setIcon(icono_rojo);
+            controlador.getAsientos().get(2).setPropetario(propietario);
+            controlador.getAsientos().get(2).setDisponible(false);
+        } else if (controlador.getAsientos().get(2).getPropetario().equals(propietario)) {
+            Asiento3.setIcon(icono_verde);
+            controlador.getAsientos().get(2).setPropetario("");
+            controlador.getAsientos().get(2).setDisponible(true);
+        }
     }//GEN-LAST:event_Asiento3MouseClicked
 
     private void Asiento5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Asiento5MouseClicked
-        // TODO add your handling code here:
+        if (controlador.getAsientos().get(4).getPropetario().equals("")) {
+            Asiento5.setIcon(icono_rojo);
+            controlador.getAsientos().get(4).setPropetario(propietario);
+            controlador.getAsientos().get(4).setDisponible(false);
+        } else if (controlador.getAsientos().get(4).getPropetario().equals(propietario)) {
+            Asiento5.setIcon(icono_verde);
+            controlador.getAsientos().get(4).setPropetario("");
+            controlador.getAsientos().get(4).setDisponible(true);
+        }
     }//GEN-LAST:event_Asiento5MouseClicked
 
     private void Asiento7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Asiento7MouseClicked
-        // TODO add your handling code here:
+        if (controlador.getAsientos().get(6).getPropetario().equals("")) {
+            Asiento7.setIcon(icono_rojo);
+            controlador.getAsientos().get(6).setPropetario(propietario);
+            controlador.getAsientos().get(6).setDisponible(false);
+        } else if (controlador.getAsientos().get(6).getPropetario().equals(propietario)) {
+            Asiento7.setIcon(icono_verde);
+            controlador.getAsientos().get(6).setPropetario("");
+            controlador.getAsientos().get(6).setDisponible(true);
+        }
     }//GEN-LAST:event_Asiento7MouseClicked
 
     private void Asiento9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Asiento9MouseClicked
-        // TODO add your handling code here:
+        if (controlador.getAsientos().get(8).getPropetario().equals("")) {
+            Asiento9.setIcon(icono_rojo);
+            controlador.getAsientos().get(8).setPropetario(propietario);
+            controlador.getAsientos().get(8).setDisponible(false);
+        } else if (controlador.getAsientos().get(8).getPropetario().equals(propietario)) {
+            Asiento9.setIcon(icono_verde);
+            controlador.getAsientos().get(8).setPropetario("");
+            controlador.getAsientos().get(8).setDisponible(true);
+        }
     }//GEN-LAST:event_Asiento9MouseClicked
 
     private void Asiento11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Asiento11MouseClicked
-        // TODO add your handling code here:
+        if (controlador.getAsientos().get(10).getPropetario().equals("")) {
+            Asiento11.setIcon(icono_rojo);
+            controlador.getAsientos().get(10).setPropetario(propietario);
+            controlador.getAsientos().get(10).setDisponible(false);
+        } else if (controlador.getAsientos().get(10).getPropetario().equals(propietario)) {
+            Asiento11.setIcon(icono_verde);
+            controlador.getAsientos().get(10).setPropetario("");
+            controlador.getAsientos().get(10).setDisponible(true);
+        }
     }//GEN-LAST:event_Asiento11MouseClicked
 
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
-         setVisible(false);
+        controlador.setViaje(viaje);
+        controlador.aceptarAsientos();
     }//GEN-LAST:event_botonAceptarActionPerformed
 
+    private void regresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regresarActionPerformed
+        setVisible(false);
+        controlador.regresar();
+    }//GEN-LAST:event_regresarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -356,6 +441,7 @@ public class BusVista extends javax.swing.JFrame implements Observer {
     private javax.swing.JLabel Unidad;
     private javax.swing.JButton botonAceptar;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton regresar;
     // End of variables declaration//GEN-END:variables
 
     @Override

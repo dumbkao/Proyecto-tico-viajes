@@ -7,12 +7,12 @@ import ticoviaje.Objetos.Asiento;
 public class Ticket extends Observable {
 
     private Viaje viajeUsuario;
-    private Asiento asientoUsuario;
+    private String asientos;
     private String nombreCliente;
 
     public Ticket() {
         this.viajeUsuario = new Viaje();
-        this.asientoUsuario = new Asiento();
+        this.asientos = "";
         this.nombreCliente = "";
     }
 
@@ -26,12 +26,12 @@ public class Ticket extends Observable {
         notifyObservers("Actualizando Ticket");
     }
 
-    public Asiento getAsientoUsuario() {
-        return asientoUsuario;
+    public String getAsientos() {
+        return asientos;
     }
 
-    public void setAsientoUsuario(Asiento asientoUsuario) {
-        this.asientoUsuario = asientoUsuario;
+    public void setAsientos(String asientos) {
+        this.asientos = asientos;
         setChanged();
         notifyObservers("Actualizando Ticket");
     }

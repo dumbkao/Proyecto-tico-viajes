@@ -216,7 +216,7 @@
         <Component class="javax.swing.JLabel" name="numero_asiento">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="controlador.getAsientoUsuario().getIdAsiento() + &quot;&quot;" type="code"/>
+              <Connection code="controlador.getAsientoUsuario()" type="code"/>
             </Property>
           </Properties>
           <Constraints>
@@ -244,6 +244,16 @@
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="350" y="40" width="-1" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JLabel" name="nota">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="NOTA: Realice una captura de pantalla"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="220" y="260" width="-1" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
