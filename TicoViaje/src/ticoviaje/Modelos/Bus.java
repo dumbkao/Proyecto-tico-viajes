@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
+import javax.swing.JOptionPane;
 import ticoviaje.Objetos.Asiento;
 import ticoviaje.Objetos.Chofer;
-import ticoviaje.xml.UtilidadesXML;
+import ticoviaje.Vista.TicoViajesVista;
 
 public class Bus extends Observable {
 
@@ -17,7 +16,7 @@ public class Bus extends Observable {
     private int capacidad;
     private ArrayList<Asiento> asientos;
     private Chofer chofer;
-    public static final String DESCRIPCION_XML = "bus";
+    private String propietario;
 
     public Bus() {
         this.estado = "Disponible";
@@ -26,33 +25,11 @@ public class Bus extends Observable {
         this.capacidad = 11;
         this.chofer = new Chofer();
         this.asientos = new ArrayList();
+        this.propietario = "";
         for (int i = 0; i < 11; i++) {
             Asiento asiento = new Asiento();
             asientos.add(asiento);
         }
-    }
-
-    public Node toXML(Document doc) {
-        Node r = doc.createElement(getNodeName());
-        r.appendChild(UtilidadesXML.crearNodo(doc, "Estado_bus", estado));
-        r.appendChild(UtilidadesXML.crearNodo(doc, "Placa_bus", placa));
-        r.appendChild(UtilidadesXML.crearNodo(doc, "Numero_unico_bus", numeroUnico + ""));
-        r.appendChild(UtilidadesXML.crearNodo(doc, "Capacidad_bus", capacidad + ""));
-        r.appendChild(UtilidadesXML.crearNodo(doc, "Chofer", chofer.getNombre()));
-        r.appendChild(UtilidadesXML.crearNodo(doc, "Licencia_chofer", chofer.getLicencia()));
-        r.appendChild(UtilidadesXML.crearNodo(doc, "Edad_chofer ", chofer.getEdad() + ""));
-        Node rr = doc.createElement("Asientos");
-        for (int i = 0; i < 11; i++) {
-            rr.appendChild(UtilidadesXML.crearNodo(doc, "Asiento " + (i + 1), asientos.get(i).getPropetario()));
-            rr.appendChild(UtilidadesXML.crearNodo(doc, "Asiento " + (i + 1), asientos.get(i).getIdAsiento() + ""));
-            rr.appendChild(UtilidadesXML.crearNodo(doc, "Asiento " + (i + 1), asientos.get(i).isDisponible() + ""));
-        }
-        r.appendChild(rr);
-        return r;
-    }
-
-    public String getNodeName() {
-        return DESCRIPCION_XML;
     }
 
     public ArrayList<Asiento> getAsientos() {
@@ -136,5 +113,11 @@ public class Bus extends Observable {
         addObserver(observador);
         setChanged();
         notifyObservers("Actualizando Bus");
+    }
+
+    public void aceptarAsientos() {
+        JOptionPane.showMessageDialog(null, "Los asientos han sido seleccionados");
+        TicoViajesVista vista = new TicoViajesVista();
+        vista.iniciar();
     }
 }

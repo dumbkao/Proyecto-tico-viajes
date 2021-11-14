@@ -1,6 +1,8 @@
 package ticoviaje.Vista;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -10,18 +12,18 @@ import org.w3c.dom.Node;
 import ticoviaje.Controlador.BusControlador;
 import ticoviaje.xml.UtilidadesXML;
 
-public class BusVista extends javax.swing.JFrame {
+public class BusVista extends javax.swing.JFrame implements Observer {
 
     private BusControlador controlador;
     private ImageIcon icono_rojo;
     private ImageIcon icono_verde;
-    private static String propietario;
+//    private static String propietario;
 
     public BusVista(String pro) {
         controlador = new BusControlador();
         icono_rojo = new ImageIcon("src/ticoviaje/Imagen/asientoOcupado.png");
         icono_verde = new ImageIcon("src/ticoviaje/Imagen/asientoDisponible.png");
-        propietario = pro;
+//        propietario = pro;
         initComponents();
     }
 
@@ -33,6 +35,7 @@ public class BusVista extends javax.swing.JFrame {
         Dia.setText(dia);
         Horario.setText(horario);
         verificarBotones();
+        controlador.agregarObservador(this);
     }
 
     public BusControlador getControlador() {
@@ -326,45 +329,9 @@ public class BusVista extends javax.swing.JFrame {
     }//GEN-LAST:event_Asiento11MouseClicked
 
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
-        JOptionPane.showMessageDialog(null, "Los asientos han sido seleccionados");
-        setVisible(false);
-        TicoViajesVista vista = new TicoViajesVista();
-        vista.iniciar();
+         setVisible(false);
     }//GEN-LAST:event_botonAceptarActionPerformed
 
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(BusVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(BusVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(BusVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(BusVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new BusVista(propietario).setVisible(true);
-            }
-        });
-
-    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -390,4 +357,9 @@ public class BusVista extends javax.swing.JFrame {
     private javax.swing.JButton botonAceptar;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(Observable o, Object arg) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

@@ -1,56 +1,22 @@
 package ticoviaje.Vista;
+import java.util.Observable;
+import java.util.Observer;
+import ticoviaje.Controlador.*;
 
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
-import ticoviaje.Modelos.Bus;
-import ticoviaje.Modelos.Flotilla;
-import ticoviaje.Modelos.Viaje;
-import ticoviaje.Objetos.Chofer;
-import ticoviaje.Modelos.ConjuntoViajes;
+public final class TicoViajesVista extends javax.swing.JFrame implements Observer {
 
-public final class TicoViajesVista extends javax.swing.JFrame {
-
-    private ConjuntoViajes conjuntoViaje;
-    private Flotilla flotilla;
+    private TicoViajesControlador controlador;
 
     public TicoViajesVista() {
-        this.conjuntoViaje = new ConjuntoViajes();
-        this.flotilla = new Flotilla();
-        agregarBuses();
-        agregarViajes();
+        this.controlador = new TicoViajesControlador();
+      
         initComponents();
     }
 
-    public void agregarViajes() {
-        agregarViaje("Alajuela-San Jose", "Domingo", "12md - 2pm", 5, 1000, 0);
-        agregarViaje("Alajuela-San Jose", "Lunes", "2:30pm - 3:30pm", 5, 1000, 0);
-        agregarViaje("San Jose-Alajuela", "Domingo", "6pm - 7pm", 5, 1000, 0);
-        agregarViaje("San Jose-Alajuela", "Domingo", "10am - 11am", 5, 1000, 0);
-    }
-
-    public void agregarViaje(String ruta, String fecha, String horario, int kilometros, int costo, int bus) {
-        Viaje viaje = new Viaje();
-        viaje.setRuta(ruta);
-        viaje.setFecha(fecha);
-        viaje.setHorario(horario);
-        viaje.setKilometros(kilometros);
-        viaje.setCosto(costo);
-        viaje.setUnidad(flotilla.getEspecifico(bus));
-        conjuntoViaje.add(viaje);
-    }
-
-    public void agregarBuses() {
-        String nombres[] = {"Juanito", "Andres", "Ramses", "Hillary", "Rosa", "Pedrito", "Sofia", "Eduardo", "Jaime", "Jose", "Maria", "Marco", "Lucia", "Jair", "Noel", "Rachel", "Emanuel", "Abigail", "Gerardo", "Wilson"};
-        for (int i = 0; i < 20; i++) {
-            Chofer chofer = new Chofer();
-            chofer.setNombre(nombres[i]);
-            Bus bus = new Bus();
-            bus.setChofer(chofer);
-            flotilla.add(bus);
-        }
-    }
+    
 
     public void iniciar() {
+        controlador.agregarObservador(this);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -108,78 +74,26 @@ public final class TicoViajesVista extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void TiquetesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TiquetesActionPerformed
-        String nombre = JOptionPane.showInputDialog(null, "Digite su nombre:", "Nombre", JOptionPane.QUESTION_MESSAGE);
-        if (nombre != null && !nombre.equals("")) {
-            ArrayList<String> listaRuta = conjuntoViaje.getRutas();
-            String ruta = (String) JOptionPane.showInputDialog(null, "Elija la ruta que desea", "RUTAS", JOptionPane.QUESTION_MESSAGE, null, listaRuta.toArray(), listaRuta.get(0));
-
-            if (ruta != null) {
-                ArrayList<String> listaFecha = conjuntoViaje.getDiasRuta(ruta);
-                String fecha = (String) JOptionPane.showInputDialog(null, "Elija la fecha que desea", "FECHAS", JOptionPane.QUESTION_MESSAGE, null, listaFecha.toArray(), listaFecha.get(0));
-
-                if (fecha != null) {
-                    ArrayList<String> listaHorarios = conjuntoViaje.getHorarioDiaRuta(ruta, fecha);
-                    String horario = (String) JOptionPane.showInputDialog(null, "Elija el Horario que desea", "HORARIOS", JOptionPane.QUESTION_MESSAGE, null, listaHorarios.toArray(), listaHorarios.get(0));
-
-                    if (horario != null) {
-                        BusVista vista = new BusVista(nombre);
-
-                        vista.getControlador().setDatos(flotilla.getEspecifico(0));
-                        setVisible(false);
-
-                        vista.iniciar(ruta, fecha, horario);
-                    }
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Debe digitar un nombre valido", "ERROR", JOptionPane.ERROR_MESSAGE);
+        if(controlador.abrirTiquetes()==true){
+            setVisible(false);
         }
     }//GEN-LAST:event_TiquetesActionPerformed
 
     private void EncomiendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EncomiendasActionPerformed
-        VistaEncomiendas vista = new VistaEncomiendas();
-        vista.iniciar();
+        controlador.abrirEncomiendas();
         setVisible(false);
     }//GEN-LAST:event_EncomiendasActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TicoViajesVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TicoViajesVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TicoViajesVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TicoViajesVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TicoViajesVista().setVisible(true);
-            }
-        });
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Encomiendas;
     private javax.swing.JLabel ImagenPanel;
     private javax.swing.JButton Tiquetes;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(Observable o, Object arg) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
