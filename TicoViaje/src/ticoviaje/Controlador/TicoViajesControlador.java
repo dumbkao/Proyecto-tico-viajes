@@ -6,11 +6,7 @@
 package ticoviaje.Controlador;
 import java.util.Observer;
 import ticoviaje.Modelos.*;
-import ticoviaje.Vista.VistaEncomiendas;
-/**
- *
- * @author hilla
- */
+
 public class TicoViajesControlador {
     private TicoViajes modelo;
     public TicoViajesControlador(){

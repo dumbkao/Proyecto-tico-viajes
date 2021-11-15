@@ -20,6 +20,14 @@ public class Bus extends Observable {
     private String propietario;
     private Viaje viaje;
 
+    public String getPropietario() {
+        return propietario;
+    }
+
+    public void setPropietario(String propietario) {
+        this.propietario = propietario;
+    }
+
     public Bus() {
         this.estado = "Disponible";
         this.placa = placaAleatoria();
@@ -31,6 +39,7 @@ public class Bus extends Observable {
         this.propietario = "";
         for (int i = 0; i < 11; i++) {
             Asiento asiento = new Asiento();
+            asiento.setIdAsiento(i + 1);
             asientos.add(asiento);
         }
     }
@@ -129,10 +138,20 @@ public class Bus extends Observable {
     public void aceptarAsientos() {
         JOptionPane.showMessageDialog(null, "Los asientos han sido seleccionados");
         TicketVista vista = new TicketVista();
-        vista.iniciar(viaje);
+        vista.iniciar(viaje, propietario, asientos_propietario());
     }
     public void regresar(){
         TicoViajesVista vista = new TicoViajesVista();
         vista.iniciar();
+    }
+    
+    public String asientos_propietario() {
+        String informacion = "";
+        for (Asiento asiento : asientos) {
+            if (asiento.getPropetario().equals(propietario)) {
+                informacion = informacion + asiento.getIdAsiento() + ", ";
+            }
+        }
+        return informacion;
     }
 }

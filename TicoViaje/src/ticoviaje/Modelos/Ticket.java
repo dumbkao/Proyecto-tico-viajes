@@ -2,7 +2,6 @@ package ticoviaje.Modelos;
 
 import java.util.Observable;
 import java.util.Observer;
-import ticoviaje.Objetos.Asiento;
 
 public class Ticket extends Observable {
 

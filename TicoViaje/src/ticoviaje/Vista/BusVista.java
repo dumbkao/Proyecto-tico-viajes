@@ -5,22 +5,17 @@ import java.util.Observable;
 import java.util.Observer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import ticoviaje.Controlador.BusControlador;
 import ticoviaje.Modelos.Viaje;
-import ticoviaje.xml.UtilidadesXML;
 
 public class BusVista extends javax.swing.JFrame implements Observer {
-    
+
     private BusControlador controlador;
     private ImageIcon icono_rojo;
     private ImageIcon icono_verde;
     private static String propietario;
     private Viaje viaje;
-    
+
     public BusVista(String pro, Viaje viaje) {
         controlador = new BusControlador();
         icono_rojo = new ImageIcon("src/ticoviaje/Imagen/asientoOcupado.png");
@@ -29,26 +24,28 @@ public class BusVista extends javax.swing.JFrame implements Observer {
         this.viaje = viaje;
         initComponents();
     }
-    
+
     public void iniciar() {
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setVisible(true);
         Ruta.setText(viaje.getRuta());
         Dia.setText(viaje.getFecha());
         Horario.setText(viaje.getHorario());
         verificarBotones();
+        controlador.setPropietario(propietario);
         controlador.agregarObservador(this);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setVisible(true);
     }
-    
+
     public BusControlador getControlador() {
         return controlador;
     }
-    
+
     public void setControlador(BusControlador controlador) {
         this.controlador = controlador;
     }
-    
+
     public void verificarBotones() {
         ArrayList<JButton> botones = new ArrayList();
         botones.add(Asiento1);
@@ -62,14 +59,14 @@ public class BusVista extends javax.swing.JFrame implements Observer {
         botones.add(Asiento9);
         botones.add(Asiento10);
         botones.add(Asiento11);
-        
+
         for (int i = 0; i < 11; i++) {
             if (controlador.getAsientos().get(i).isDisponible() == false) {
                 botones.get(i).setIcon(icono_rojo);
             }
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -104,8 +101,11 @@ public class BusVista extends javax.swing.JFrame implements Observer {
         jPanel1.setEnabled(false);
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        Asiento3.setForeground(new java.awt.Color(0, 0, 0));
         Asiento3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticoviaje/Imagen/asientoDisponible.png"))); // NOI18N
+        Asiento3.setText("3");
         Asiento3.setBorder(null);
+        Asiento3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Asiento3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Asiento3MouseClicked(evt);
@@ -113,8 +113,11 @@ public class BusVista extends javax.swing.JFrame implements Observer {
         });
         jPanel1.add(Asiento3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, -1, -1));
 
+        Asiento5.setForeground(new java.awt.Color(0, 0, 0));
         Asiento5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticoviaje/Imagen/asientoDisponible.png"))); // NOI18N
+        Asiento5.setText("5");
         Asiento5.setBorder(null);
+        Asiento5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Asiento5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Asiento5MouseClicked(evt);
@@ -122,8 +125,11 @@ public class BusVista extends javax.swing.JFrame implements Observer {
         });
         jPanel1.add(Asiento5, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 250, -1, -1));
 
+        Asiento7.setForeground(new java.awt.Color(0, 0, 0));
         Asiento7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticoviaje/Imagen/asientoDisponible.png"))); // NOI18N
+        Asiento7.setText("7");
         Asiento7.setBorder(null);
+        Asiento7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Asiento7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Asiento7MouseClicked(evt);
@@ -131,8 +137,11 @@ public class BusVista extends javax.swing.JFrame implements Observer {
         });
         jPanel1.add(Asiento7, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 290, -1, -1));
 
+        Asiento11.setForeground(new java.awt.Color(0, 0, 0));
         Asiento11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticoviaje/Imagen/asientoDisponible.png"))); // NOI18N
+        Asiento11.setText("11");
         Asiento11.setBorder(null);
+        Asiento11.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Asiento11.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Asiento11MouseClicked(evt);
@@ -140,8 +149,11 @@ public class BusVista extends javax.swing.JFrame implements Observer {
         });
         jPanel1.add(Asiento11, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 370, -1, -1));
 
+        Asiento6.setForeground(new java.awt.Color(0, 0, 0));
         Asiento6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticoviaje/Imagen/asientoDisponible.png"))); // NOI18N
+        Asiento6.setText("6");
         Asiento6.setBorder(null);
+        Asiento6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Asiento6.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Asiento6MouseClicked(evt);
@@ -149,8 +161,11 @@ public class BusVista extends javax.swing.JFrame implements Observer {
         });
         jPanel1.add(Asiento6, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, -1, -1));
 
+        Asiento10.setForeground(new java.awt.Color(0, 0, 0));
         Asiento10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticoviaje/Imagen/asientoDisponible.png"))); // NOI18N
+        Asiento10.setText("10");
         Asiento10.setBorder(null);
+        Asiento10.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Asiento10.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Asiento10MouseClicked(evt);
@@ -158,8 +173,11 @@ public class BusVista extends javax.swing.JFrame implements Observer {
         });
         jPanel1.add(Asiento10, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 370, -1, -1));
 
+        Asiento8.setForeground(new java.awt.Color(0, 0, 0));
         Asiento8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticoviaje/Imagen/asientoDisponible.png"))); // NOI18N
+        Asiento8.setText("8");
         Asiento8.setBorder(null);
+        Asiento8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Asiento8.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Asiento8MouseClicked(evt);
@@ -167,8 +185,11 @@ public class BusVista extends javax.swing.JFrame implements Observer {
         });
         jPanel1.add(Asiento8, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 330, -1, -1));
 
+        Asiento4.setForeground(new java.awt.Color(0, 0, 0));
         Asiento4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticoviaje/Imagen/asientoDisponible.png"))); // NOI18N
+        Asiento4.setText("4");
         Asiento4.setBorder(null);
+        Asiento4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Asiento4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Asiento4MouseClicked(evt);
@@ -176,8 +197,11 @@ public class BusVista extends javax.swing.JFrame implements Observer {
         });
         jPanel1.add(Asiento4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, -1, -1));
 
+        Asiento2.setForeground(new java.awt.Color(0, 0, 0));
         Asiento2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticoviaje/Imagen/asientoDisponible.png"))); // NOI18N
+        Asiento2.setText("2");
         Asiento2.setBorder(null);
+        Asiento2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Asiento2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Asiento2MouseClicked(evt);
@@ -185,8 +209,11 @@ public class BusVista extends javax.swing.JFrame implements Observer {
         });
         jPanel1.add(Asiento2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 210, -1, -1));
 
+        Asiento1.setForeground(new java.awt.Color(0, 0, 0));
         Asiento1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticoviaje/Imagen/asientoDisponible.png"))); // NOI18N
+        Asiento1.setText("1");
         Asiento1.setBorder(null);
+        Asiento1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Asiento1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Asiento1MouseClicked(evt);
@@ -194,8 +221,11 @@ public class BusVista extends javax.swing.JFrame implements Observer {
         });
         jPanel1.add(Asiento1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 170, -1, -1));
 
+        Asiento9.setForeground(new java.awt.Color(0, 0, 0));
         Asiento9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticoviaje/Imagen/asientoDisponible.png"))); // NOI18N
+        Asiento9.setText("9");
         Asiento9.setBorder(null);
+        Asiento9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Asiento9.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Asiento9MouseClicked(evt);
@@ -276,7 +306,7 @@ public class BusVista extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void Asiento1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Asiento1MouseClicked
-        
+
         if (controlador.getAsientos().get(0).getPropetario().equals("")) {
             Asiento1.setIcon(icono_rojo);
             controlador.getAsientos().get(0).setPropetario(propietario);

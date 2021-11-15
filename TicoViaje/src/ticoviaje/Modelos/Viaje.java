@@ -24,6 +24,10 @@ public class Viaje extends Observable {
         this.unidad = new Bus();
     }
 
+    public ConjuntoEncomienda getEncomiendas() {
+        return encomiendas;
+    }
+
     public void agregarEncomienda(Encomienda encomienda) {
         encomiendas.add(encomienda);
         setChanged();

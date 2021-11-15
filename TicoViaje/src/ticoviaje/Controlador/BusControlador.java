@@ -2,13 +2,10 @@ package ticoviaje.Controlador;
 
 import java.util.ArrayList;
 import java.util.Observer;
-import javax.swing.JOptionPane;
 import ticoviaje.Modelos.Bus;
 import ticoviaje.Modelos.Viaje;
 import ticoviaje.Objetos.Asiento;
 import ticoviaje.Objetos.Chofer;
-import ticoviaje.Vista.TicketVista;
-import ticoviaje.Vista.TicoViajesVista;
 
 public class BusControlador {
 
@@ -88,5 +85,13 @@ public class BusControlador {
 
     public void setViaje(Viaje viaje) {
         datos.setViaje(viaje);
+    }
+    
+    public String getPropietario() {
+        return datos.getPropietario();
+    }
+
+    public void setPropietario(String propietario) {
+        datos.setPropietario(propietario);
     }
 }

@@ -1,16 +1,16 @@
+
 package ticoviaje.Vista;
 
 import java.util.Observable;
 import java.util.Observer;
-import ticoviaje.Controlador.EncomiendasClienteControlador;
-import ticoviaje.Objetos.Cliente;
+import ticoviaje.Controlador.EncomiendasViajeControlador;
 
-public class VistaEncomiendasCliente extends javax.swing.JFrame implements Observer {
+public class EncomiendasViajeVista extends javax.swing.JFrame implements Observer {
 
-    private EncomiendasClienteControlador controlador;
-
-    public VistaEncomiendasCliente(Cliente cliente) {
-        controlador = new EncomiendasClienteControlador(cliente);
+    private EncomiendasViajeControlador controlador;
+    
+    public EncomiendasViajeVista() {
+        controlador = new EncomiendasViajeControlador();
         initComponents();
     }
 
@@ -21,7 +21,7 @@ public class VistaEncomiendasCliente extends javax.swing.JFrame implements Obser
         setResizable(false);
         setVisible(true);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -30,9 +30,7 @@ public class VistaEncomiendasCliente extends javax.swing.JFrame implements Obser
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaEncomiendas = new javax.swing.JTable();
         btnRegresar = new javax.swing.JButton();
-        btnCambiarEstado = new javax.swing.JButton();
-        btnAgregarEncomienda = new javax.swing.JButton();
-        labelFondo = new javax.swing.JLabel();
+        Fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,18 +63,6 @@ public class VistaEncomiendasCliente extends javax.swing.JFrame implements Obser
             }
         });
         jScrollPane1.setViewportView(TablaEncomiendas);
-        if (TablaEncomiendas.getColumnModel().getColumnCount() > 0) {
-            TablaEncomiendas.getColumnModel().getColumn(0).setResizable(false);
-            TablaEncomiendas.getColumnModel().getColumn(0).setPreferredWidth(8);
-            TablaEncomiendas.getColumnModel().getColumn(1).setResizable(false);
-            TablaEncomiendas.getColumnModel().getColumn(1).setPreferredWidth(8);
-            TablaEncomiendas.getColumnModel().getColumn(2).setResizable(false);
-            TablaEncomiendas.getColumnModel().getColumn(2).setPreferredWidth(8);
-            TablaEncomiendas.getColumnModel().getColumn(3).setResizable(false);
-            TablaEncomiendas.getColumnModel().getColumn(3).setPreferredWidth(8);
-            TablaEncomiendas.getColumnModel().getColumn(4).setResizable(false);
-            TablaEncomiendas.getColumnModel().getColumn(4).setPreferredWidth(8);
-        }
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, 960, 300));
 
@@ -87,28 +73,10 @@ public class VistaEncomiendasCliente extends javax.swing.JFrame implements Obser
                 btnRegresarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 490, 150, -1));
+        jPanel1.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 500, 150, -1));
 
-        btnCambiarEstado.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        btnCambiarEstado.setText("Cambiar Estado");
-        btnCambiarEstado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCambiarEstadoActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnCambiarEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 490, -1, -1));
-
-        btnAgregarEncomienda.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        btnAgregarEncomienda.setText("Agregar Encomienda");
-        btnAgregarEncomienda.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarEncomiendaActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnAgregarEncomienda, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 490, 330, -1));
-
-        labelFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticoviaje/Imagen/ticoviajesfondo.png"))); // NOI18N
-        jPanel1.add(labelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        Fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticoviaje/Imagen/ticoviajesfondo.png"))); // NOI18N
+        jPanel1.add(Fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -128,26 +96,16 @@ public class VistaEncomiendasCliente extends javax.swing.JFrame implements Obser
         controlador.regresar();
         setVisible(false);
     }//GEN-LAST:event_btnRegresarActionPerformed
-    private void btnCambiarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarEstadoActionPerformed
-        controlador.cambiar_estado(TablaEncomiendas);
-    }//GEN-LAST:event_btnCambiarEstadoActionPerformed
-
-    private void btnAgregarEncomiendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEncomiendaActionPerformed
-        controlador.agregar_encomienda(TablaEncomiendas);
-    }//GEN-LAST:event_btnAgregarEncomiendaActionPerformed
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable TablaEncomiendas;
-    private javax.swing.JButton btnAgregarEncomienda;
-    private javax.swing.JButton btnCambiarEstado;
-    private javax.swing.JButton btnRegresar;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel labelFondo;
-    // End of variables declaration//GEN-END:variables
 
     @Override
     public void update(Observable o, Object o1) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Fondo;
+    private javax.swing.JTable TablaEncomiendas;
+    private javax.swing.JButton btnRegresar;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    // End of variables declaration//GEN-END:variables
 }

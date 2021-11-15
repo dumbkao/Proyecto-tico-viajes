@@ -1,4 +1,5 @@
 package ticoviaje.Vista;
+
 import java.util.Observable;
 import java.util.Observer;
 import ticoviaje.Controlador.*;
@@ -9,16 +10,14 @@ public final class TicoViajesVista extends javax.swing.JFrame implements Observe
 
     public TicoViajesVista() {
         this.controlador = new TicoViajesControlador();
-      
         initComponents();
     }
-
-    
 
     public void iniciar() {
         controlador.agregarObservador(this);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setResizable(false);
         setVisible(true);
     }
 
@@ -74,7 +73,7 @@ public final class TicoViajesVista extends javax.swing.JFrame implements Observe
     }// </editor-fold>//GEN-END:initComponents
 
     private void TiquetesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TiquetesActionPerformed
-        if(controlador.abrirTiquetes()==true){
+        if (controlador.abrirTiquetes() == true) {
             setVisible(false);
         }
     }//GEN-LAST:event_TiquetesActionPerformed

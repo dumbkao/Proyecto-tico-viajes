@@ -3,7 +3,6 @@ package ticoviaje.Controlador;
 import java.util.Observer;
 import ticoviaje.Modelos.Ticket;
 import ticoviaje.Modelos.Viaje;
-import ticoviaje.Objetos.Asiento;
 
 public class TicketControlador {
 

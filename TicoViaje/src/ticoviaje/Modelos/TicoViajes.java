@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ticoviaje.Modelos;
 
 import java.util.ArrayList;
@@ -13,10 +8,6 @@ import ticoviaje.Vista.BusVista;
 import ticoviaje.Vista.VistaEncomiendas;
 import ticoviaje.Objetos.Chofer;
 
-/**
- *
- * @author hilla
- */
 public class TicoViajes extends Observable {
 
     private ConjuntoViajes conjuntoViaje;
@@ -30,10 +21,10 @@ public class TicoViajes extends Observable {
     }
 
     public final void agregarViajes() {
-        agregarViaje("Alajuela-San Jose", "Domingo", "12md - 2pm", 5, 1000, 0);
-        agregarViaje("Alajuela-San Jose", "Lunes", "2:30pm - 3:30pm", 5, 1000, 0);
-        agregarViaje("San Jose-Alajuela", "Domingo", "6pm - 7pm", 5, 1000, 0);
-        agregarViaje("San Jose-Alajuela", "Domingo", "10am - 11am", 5, 1000, 0);
+        agregarViaje("Alajuela - San Jose", "Domingo", "12md - 2pm", 5, 1000, 0);
+        agregarViaje("Alajuela - San Jose", "Lunes", "2:30pm - 3:30pm", 5, 1000, 0);
+        agregarViaje("San Jose - Alajuela", "Domingo", "6pm - 7pm", 5, 1000, 0);
+        agregarViaje("San Jose - Alajuela", "Domingo", "10am - 11am", 5, 1000, 0);
     }
 
     public void agregarViaje(String ruta, String fecha, String horario, int kilometros, int costo, int bus) {
@@ -72,7 +63,7 @@ public class TicoViajes extends Observable {
     }
 
     public boolean abrirTiquetes() {
-        
+
         setChanged();
         notifyObservers();
         String nombre = JOptionPane.showInputDialog(null, "Digite su nombre:", "Nombre", JOptionPane.QUESTION_MESSAGE);
@@ -89,11 +80,10 @@ public class TicoViajes extends Observable {
                     String horario = (String) JOptionPane.showInputDialog(null, "Elija el Horario que desea", "HORARIOS", JOptionPane.QUESTION_MESSAGE, null, listaHorarios.toArray(), listaHorarios.get(0));
 
                     if (horario != null) {
-                        BusVista vista = new BusVista(nombre,obtenerViaje(ruta, fecha, horario));
-
+                        BusVista vista = new BusVista(nombre, obtenerViaje(ruta, fecha, horario));
                         vista.getControlador().setDatos(flotilla.getEspecifico(0));
-                         vista.iniciar();
-                        return true;          
+                        vista.iniciar();
+                        return true;
                     }
                 }
             }
@@ -102,17 +92,16 @@ public class TicoViajes extends Observable {
         }
         return false;
     }
-    public Viaje obtenerViaje(String ruta, String fecha, String horario){
-        for(Viaje viaje: conjuntoViaje.getViajes()){
-           if(viaje.getRuta().equals(ruta)){
-               
-               if(viaje.getFecha().equals(fecha)){
-                   
-                   if(viaje.getHorario().equals(horario)){
-                       return viaje;
-                   }
-               }
-           }
+
+    public Viaje obtenerViaje(String ruta, String fecha, String horario) {
+        for (Viaje viaje : conjuntoViaje.getViajes()) {
+            if (viaje.getRuta().equals(ruta)) {
+                if (viaje.getFecha().equals(fecha)) {
+                    if (viaje.getHorario().equals(horario)) {
+                        return viaje;
+                    }
+                }
+            }
         }
         return null;
     }
