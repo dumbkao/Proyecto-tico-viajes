@@ -1,7 +1,5 @@
 package ticoviaje.Objetos;
 
-import java.util.Date;
-
 public class Encomienda {
 
     private int peso;

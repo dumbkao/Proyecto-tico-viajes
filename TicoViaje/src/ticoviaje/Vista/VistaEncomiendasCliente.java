@@ -2,15 +2,17 @@ package ticoviaje.Vista;
 
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JOptionPane;
 import ticoviaje.Controlador.EncomiendasClienteControlador;
+import ticoviaje.Modelos.ConjuntoViajes;
 import ticoviaje.Objetos.Cliente;
 
 public class VistaEncomiendasCliente extends javax.swing.JFrame implements Observer {
 
     private EncomiendasClienteControlador controlador;
 
-    public VistaEncomiendasCliente(Cliente cliente) {
-        controlador = new EncomiendasClienteControlador(cliente);
+    public VistaEncomiendasCliente(Cliente cliente, ConjuntoViajes viajes) {
+        controlador = new EncomiendasClienteControlador(cliente, viajes);
         initComponents();
     }
 
@@ -87,7 +89,7 @@ public class VistaEncomiendasCliente extends javax.swing.JFrame implements Obser
                 btnRegresarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 490, 150, -1));
+        jPanel1.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 490, 150, -1));
 
         btnCambiarEstado.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         btnCambiarEstado.setText("Cambiar Estado");
@@ -96,7 +98,7 @@ public class VistaEncomiendasCliente extends javax.swing.JFrame implements Obser
                 btnCambiarEstadoActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCambiarEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 490, -1, -1));
+        jPanel1.add(btnCambiarEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 490, -1, -1));
 
         btnAgregarEncomienda.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         btnAgregarEncomienda.setText("Agregar Encomienda");
@@ -105,7 +107,7 @@ public class VistaEncomiendasCliente extends javax.swing.JFrame implements Obser
                 btnAgregarEncomiendaActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAgregarEncomienda, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 490, 330, -1));
+        jPanel1.add(btnAgregarEncomienda, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 490, 290, -1));
 
         labelFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticoviaje/Imagen/ticoviajesfondo.png"))); // NOI18N
         jPanel1.add(labelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -147,7 +149,9 @@ public class VistaEncomiendasCliente extends javax.swing.JFrame implements Obser
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void update(Observable o, Object o1) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void update(Observable o, Object arg) {
+        if (arg != null) {
+            JOptionPane.showMessageDialog(null, arg);
+        }
     }
 }

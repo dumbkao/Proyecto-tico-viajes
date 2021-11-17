@@ -7,24 +7,27 @@ import javax.swing.JOptionPane;
 import ticoviaje.Vista.BusVista;
 import ticoviaje.Vista.VistaEncomiendas;
 import ticoviaje.Objetos.Chofer;
+import ticoviaje.Vista.MantenimientoVista;
 
 public class TicoViajes extends Observable {
 
     private ConjuntoViajes conjuntoViaje;
     private Flotilla flotilla;
+    private ArrayList<Chofer> choferes;
 
     public TicoViajes() {
         this.conjuntoViaje = new ConjuntoViajes();
         this.flotilla = new Flotilla();
+        this.choferes = new ArrayList();
         agregarBuses();
         agregarViajes();
     }
 
     public final void agregarViajes() {
-        agregarViaje("Alajuela - San Jose", "Domingo", "12md - 2pm", 5, 1000, 0);
-        agregarViaje("Alajuela - San Jose", "Lunes", "2:30pm - 3:30pm", 5, 1000, 0);
-        agregarViaje("San Jose - Alajuela", "Domingo", "6pm - 7pm", 5, 1000, 0);
-        agregarViaje("San Jose - Alajuela", "Domingo", "10am - 11am", 5, 1000, 0);
+        agregarViaje("Alajuela - San Jose", "Domingo", "12:00md - 02:00pm", 5, 1000, 0);
+        agregarViaje("Alajuela - San Jose", "Lunes", "02:30pm - 3:30pm", 5, 1000, 1);
+        agregarViaje("San Jose - Alajuela", "Domingo", "06:00pm - 07:00pm", 5, 1000, 2);
+        agregarViaje("San Jose - Alajuela", "Domingo", "10:00am - 11:00am", 5, 1000, 3);
     }
 
     public void agregarViaje(String ruta, String fecha, String horario, int kilometros, int costo, int bus) {
@@ -63,7 +66,6 @@ public class TicoViajes extends Observable {
     }
 
     public boolean abrirTiquetes() {
-
         setChanged();
         notifyObservers();
         String nombre = JOptionPane.showInputDialog(null, "Digite su nombre:", "Nombre", JOptionPane.QUESTION_MESSAGE);
@@ -80,7 +82,7 @@ public class TicoViajes extends Observable {
                     String horario = (String) JOptionPane.showInputDialog(null, "Elija el Horario que desea", "HORARIOS", JOptionPane.QUESTION_MESSAGE, null, listaHorarios.toArray(), listaHorarios.get(0));
 
                     if (horario != null) {
-                        BusVista vista = new BusVista(nombre, obtenerViaje(ruta, fecha, horario));
+                        BusVista vista = new BusVista(nombre, conjuntoViaje.obtenerViaje(ruta, fecha, horario));
                         vista.getControlador().setDatos(flotilla.getEspecifico(0));
                         vista.iniciar();
                         return true;
@@ -92,18 +94,10 @@ public class TicoViajes extends Observable {
         }
         return false;
     }
-
-    public Viaje obtenerViaje(String ruta, String fecha, String horario) {
-        for (Viaje viaje : conjuntoViaje.getViajes()) {
-            if (viaje.getRuta().equals(ruta)) {
-                if (viaje.getFecha().equals(fecha)) {
-                    if (viaje.getHorario().equals(horario)) {
-                        return viaje;
-                    }
-                }
-            }
-        }
-        return null;
+    
+    public void mantenimiento() {
+        MantenimientoVista vista = new MantenimientoVista(conjuntoViaje, choferes, flotilla);
+        vista.iniciar();
     }
 
 }

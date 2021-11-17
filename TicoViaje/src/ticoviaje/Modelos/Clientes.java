@@ -33,7 +33,7 @@ public class Clientes extends Observable {
     public boolean verClientes(JTable tabla) {
         int fila = tabla.getSelectedRow();
         if (fila != -1) {
-            VistaEncomiendasCliente vista = new VistaEncomiendasCliente(clientes.get(fila));
+            VistaEncomiendasCliente vista = new VistaEncomiendasCliente(clientes.get(fila), new ConjuntoViajes());
             vista.iniciar();
             return true;
         }

@@ -3,6 +3,7 @@ package ticoviaje.Controlador;
 
 import java.util.Observer;
 import javax.swing.JTable;
+import ticoviaje.Modelos.ConjuntoViajes;
 import ticoviaje.Modelos.EncomiendasCliente;
 import ticoviaje.Objetos.Cliente;
 
@@ -10,8 +11,8 @@ public class EncomiendasClienteControlador {
     
     private EncomiendasCliente modelo;
     
-    public EncomiendasClienteControlador(Cliente cliente) {
-        modelo = new EncomiendasCliente(cliente);
+    public EncomiendasClienteControlador(Cliente cliente, ConjuntoViajes viajes) {
+        modelo = new EncomiendasCliente(cliente, viajes);
     }
     
     public void generarTabla(JTable tabla) {

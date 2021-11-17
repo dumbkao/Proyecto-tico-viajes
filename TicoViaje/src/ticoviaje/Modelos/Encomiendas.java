@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import ticoviaje.Objetos.Chofer;
 import ticoviaje.Objetos.Cliente;
 import ticoviaje.Objetos.Encomienda;
+import ticoviaje.Vista.EncomiendasViajeVista;
 import ticoviaje.Vista.TicoViajesVista;
 import ticoviaje.Vista.VistaClientes;
 
@@ -30,7 +31,7 @@ public class Encomiendas extends Observable {
         vista.iniciar();
     }
     
-    public void encomienda_viaje() {
+    public boolean encomienda_viaje() {
         ArrayList<String> listaRuta = conjuntoViaje.getRutas();
         String ruta = (String) JOptionPane.showInputDialog(null, "Elija la ruta que desea", "RUTAS", JOptionPane.QUESTION_MESSAGE, null, listaRuta.toArray(), listaRuta.get(0));
         if (ruta != null) {
@@ -40,10 +41,13 @@ public class Encomiendas extends Observable {
                 ArrayList<String> listaHorarios = conjuntoViaje.getHorarioDiaRuta(ruta, fecha);
                 String horario = (String) JOptionPane.showInputDialog(null, "Elija el Horario que desea", "HORARIOS", JOptionPane.QUESTION_MESSAGE, null, listaHorarios.toArray(), listaHorarios.get(0));
                 if (horario != null) {
-                    
+                    EncomiendasViajeVista vista = new EncomiendasViajeVista(conjuntoViaje.obtenerViaje(ruta, fecha, horario));
+                    vista.iniciar();
+                    return true;
                 }
             }
         }
+        return false;
     }
     
     public void regresar() {
@@ -147,19 +151,6 @@ public class Encomiendas extends Observable {
         clientes.add(cliente3);
         clientes.add(cliente4);
         clientes.add(cliente5);
-    }
-    
-    public ArrayList<Encomienda> obtenerEncomiendasViaje(String ruta, String fecha, String horario) {
-        for (Viaje viaje : conjuntoViaje.getViajes()) {
-            if (viaje.getRuta().equals(ruta)) {
-                if (viaje.getFecha().equals(fecha)) {
-                    if (viaje.getHorario().equals(horario)) {
-                        return viaje.getEncomiendas().getEncomiendas();
-                    }
-                }
-            }
-        }
-        return null;
     }
     
     public void agregarObservador(Observer observer) {

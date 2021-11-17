@@ -16,8 +16,8 @@ public class EncomiendasControlador {
         modelo.ver_clientes();
     }
     
-    public void encomienda_viaje() {
-        modelo.encomienda_viaje();
+    public boolean encomienda_viaje() {
+        return modelo.encomienda_viaje();
     }
     
     public void regresar() {

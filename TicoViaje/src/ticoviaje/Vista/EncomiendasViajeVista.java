@@ -4,17 +4,19 @@ package ticoviaje.Vista;
 import java.util.Observable;
 import java.util.Observer;
 import ticoviaje.Controlador.EncomiendasViajeControlador;
+import ticoviaje.Modelos.Viaje;
 
 public class EncomiendasViajeVista extends javax.swing.JFrame implements Observer {
 
     private EncomiendasViajeControlador controlador;
     
-    public EncomiendasViajeVista() {
-        controlador = new EncomiendasViajeControlador();
+    public EncomiendasViajeVista(Viaje viaje) {
+        controlador = new EncomiendasViajeControlador(viaje);
         initComponents();
     }
 
     public void iniciar() {
+        controlador.generar_tabla(TablaEncomiendas);
         controlador.agregarObservador(this);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);

@@ -96,7 +96,9 @@ public class VistaEncomiendas extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_btnVerClientesActionPerformed
 
     private void btnEncomiendaViajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEncomiendaViajeActionPerformed
-        controlador.encomienda_viaje();
+        if (controlador.encomienda_viaje() == true) {
+            setVisible(false);
+        }
     }//GEN-LAST:event_btnEncomiendaViajeActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed

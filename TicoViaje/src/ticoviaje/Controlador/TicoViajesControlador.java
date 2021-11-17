@@ -21,4 +21,7 @@ public class TicoViajesControlador {
     public boolean abrirTiquetes(){
        return modelo.abrirTiquetes();
     }
+    public void mantenimiento() {
+        modelo.mantenimiento();
+    }
 }

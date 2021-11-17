@@ -26,14 +26,23 @@ public final class TicoViajesVista extends javax.swing.JFrame implements Observe
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        Mantenimiento = new javax.swing.JButton();
         Tiquetes = new javax.swing.JButton();
         Encomiendas = new javax.swing.JButton();
         ImagenPanel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Mantenimiento.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        Mantenimiento.setText("Mantenimiento");
+        Mantenimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MantenimientoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(Mantenimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 410, 250, -1));
 
         Tiquetes.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         Tiquetes.setText("<html><body><center>Gestion de<br>Tiquetes</center></body></html>");
@@ -83,10 +92,16 @@ public final class TicoViajesVista extends javax.swing.JFrame implements Observe
         setVisible(false);
     }//GEN-LAST:event_EncomiendasActionPerformed
 
+    private void MantenimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MantenimientoActionPerformed
+        controlador.mantenimiento();
+        setVisible(false);
+    }//GEN-LAST:event_MantenimientoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Encomiendas;
     private javax.swing.JLabel ImagenPanel;
+    private javax.swing.JButton Mantenimiento;
     private javax.swing.JButton Tiquetes;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables

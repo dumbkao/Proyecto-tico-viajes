@@ -78,7 +78,7 @@ public class Bus extends Observable {
 
     public static String placaAleatoria() {
 
-        char[] chars = "0123456789abcdefghijklmnopqrstuvwxyz".toCharArray();
+        char[] chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 
         int charsLength = chars.length;
 
@@ -86,7 +86,7 @@ public class Bus extends Observable {
 
         StringBuilder buffer = new StringBuilder();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 6; i++) {
             buffer.append(chars[random.nextInt(charsLength)]);
         }
 
