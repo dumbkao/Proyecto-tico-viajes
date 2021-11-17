@@ -1,9 +1,15 @@
 package ticoviaje.Modelos;
 
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import ticoviaje.Bases_Datos.Conexion;
+import ticoviaje.Objetos.Asiento;
 import ticoviaje.Objetos.Chofer;
 import ticoviaje.Objetos.Cliente;
 import ticoviaje.Objetos.Encomienda;
@@ -12,12 +18,14 @@ import ticoviaje.Vista.TicoViajesVista;
 import ticoviaje.Vista.VistaClientes;
 
 public class Encomiendas extends Observable {
-    
+
+    private Conexion cn;
     private ConjuntoViajes conjuntoViaje;
     private Flotilla flotilla;
     private ArrayList<Cliente> clientes;
-    
+
     public Encomiendas() {
+        this.cn = new Conexion();
         conjuntoViaje = new ConjuntoViajes();
         flotilla = new Flotilla();
         clientes = new ArrayList();
@@ -25,12 +33,12 @@ public class Encomiendas extends Observable {
         agregarViajes();
         cargarClientes();
     }
-    
+
     public void ver_clientes() {
         VistaClientes vista = new VistaClientes();
         vista.iniciar();
     }
-    
+
     public boolean encomienda_viaje() {
         ArrayList<String> listaRuta = conjuntoViaje.getRutas();
         String ruta = (String) JOptionPane.showInputDialog(null, "Elija la ruta que desea", "RUTAS", JOptionPane.QUESTION_MESSAGE, null, listaRuta.toArray(), listaRuta.get(0));
@@ -49,12 +57,13 @@ public class Encomiendas extends Observable {
         }
         return false;
     }
-    
+
     public void regresar() {
         TicoViajesVista vista = new TicoViajesVista();
         vista.iniciar();
+        cn.cerrar();
     }
-    
+
     public void encomienda_codigo() {
         String codigo = JOptionPane.showInputDialog(null, "Digite el codigo:");
         if (codigo != null && !codigo.equals("") && codigo.matches("[-+]?\\d*\\.?\\d+") == true) {
@@ -62,8 +71,7 @@ public class Encomiendas extends Observable {
             if (informacion != null) {
                 setChanged();
                 notifyObservers(informacion);
-            }
-            else {
+            } else {
                 setChanged();
                 notifyObservers("No se encontro la encomienda");
             }
@@ -72,7 +80,7 @@ public class Encomiendas extends Observable {
             notifyObservers("Debe digitar un codigo valido");
         }
     }
-    
+
     public String imprimirEncomienda(String codigo) {
         int numero_codigo = Integer.parseInt(codigo);
         for (Cliente cliente : clientes) {
@@ -84,7 +92,7 @@ public class Encomiendas extends Observable {
         }
         return null;
     }
-    
+
     public String toStringEncomienda(Encomienda encomienda) {
         String informacion = "Cliente: " + encomienda.getPersonaEntrega() + "\n";
         informacion = informacion + "Peso: " + encomienda.getPeso() + "\n";
@@ -96,7 +104,7 @@ public class Encomiendas extends Observable {
         informacion = informacion + "Estado: " + encomienda.isEstadoViaje() + "\n";
         return informacion;
     }
-    
+
     public final void agregarViajes() {
         agregarViaje("Alajuela - San Jose", "Domingo", "12md - 2pm", 5, 1000, 0);
         agregarViaje("Alajuela - San Jose", "Lunes", "2:30pm - 3:30pm", 5, 1000, 0);
@@ -114,7 +122,7 @@ public class Encomiendas extends Observable {
         viaje.setUnidad(flotilla.getEspecifico(bus));
         conjuntoViaje.add(viaje);
     }
-    
+
     public final void agregarBuses() {
         String nombres[] = {"Juanito", "Andres", "Ramses", "Hillary", "Rosa", "Pedrito", "Sofia", "Eduardo", "Jaime", "Jose", "Maria", "Marco", "Lucia", "Jair", "Noel", "Rachel", "Emanuel", "Abigail", "Gerardo", "Wilson"};
         for (int i = 0; i < 20; i++) {
@@ -125,7 +133,7 @@ public class Encomiendas extends Observable {
             flotilla.add(bus);
         }
     }
-    
+
     public final void cargarClientes() {
         Cliente cliente1 = new Cliente();
         Cliente cliente2 = new Cliente();
@@ -152,10 +160,99 @@ public class Encomiendas extends Observable {
         clientes.add(cliente4);
         clientes.add(cliente5);
     }
-    
+
     public void agregarObservador(Observer observer) {
         addObserver(observer);
         setChanged();
         notifyObservers();
+    }
+
+    public void cargarBD() {
+        Statement st;
+        ResultSet rs;
+
+        try {
+            st = cn.getConexion().createStatement();
+            rs = st.executeQuery("SELECT * FROM viajes");
+
+            while (rs.next()) {
+                Viaje viaje = new Viaje();
+
+                viaje.setRuta(rs.getString("ruta"));
+                viaje.setFecha(rs.getString("fecha"));
+                viaje.setHorario(rs.getString("horario"));
+                viaje.setKilometros(rs.getInt("kilometros"));
+                viaje.setCosto(rs.getInt("precio"));
+                Bus unidad = cargarBus(rs.getInt("idbuses"));
+                viaje.setUnidad(unidad);
+
+                conjuntoViaje.add(viaje);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        setChanged();
+        notifyObservers();
+    }
+
+    public Bus cargarBus(int key) {
+        Statement st;
+        ResultSet rs;
+
+        try {
+            st = cn.getConexion().createStatement();
+            rs = st.executeQuery("SELECT * FROM buses where (idbuses = " + key + ");");
+
+            while (rs.next()) {
+                Bus unidad = new Bus();
+
+                unidad.setEstado(rs.getString("estado"));
+                unidad.setPlaca(rs.getString("placa"));
+                unidad.setNumeroUnico(rs.getInt("numeroUnico"));
+                unidad.setCapacidad(rs.getInt("capacidad"));
+                unidad.setChofer(cargarChofer(rs.getInt("idchofer")));
+
+                //unidad.setAsientos(asientos);
+                //unidad.setViaje(viaje);
+                //unidad.setPropietario(propietario);
+                setChanged();
+                notifyObservers();
+                return unidad;
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public Chofer cargarChofer(int key) {
+
+        Statement st;
+        ResultSet rs;
+
+        try {
+            st = cn.getConexion().createStatement();
+            rs = st.executeQuery("SELECT * FROM buses where (idbuses = " + key + ");");
+
+            while (rs.next()) {
+                Chofer chofer = new Chofer();
+
+                setChanged();
+                notifyObservers();
+                return chofer;
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
+    public ArrayList<Asiento> cargarAsientos() {
+
+        return null;
     }
 }

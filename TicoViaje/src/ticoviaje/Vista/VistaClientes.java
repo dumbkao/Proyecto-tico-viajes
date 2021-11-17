@@ -1,10 +1,7 @@
 package ticoviaje.Vista;
 
-import java.sql.SQLException;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import ticoviaje.Controlador.ClientesControlador;
 
 public class VistaClientes extends javax.swing.JFrame implements Observer {
@@ -20,7 +17,7 @@ public class VistaClientes extends javax.swing.JFrame implements Observer {
     public void iniciar() {
         controlador.cargarBD(TablaClientes);
         controlador.agregarObservador(this);
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        //setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);

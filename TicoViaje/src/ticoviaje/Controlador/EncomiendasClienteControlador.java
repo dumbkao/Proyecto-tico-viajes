@@ -22,7 +22,7 @@ public class EncomiendasClienteControlador {
         modelo.regresar();
     }
 
-    public void cambiar_estado(JTable tabla) {
+    public void cambiar_estado(JTable tabla) throws Exception {
         modelo.cambiar_estado(tabla);
     }
 

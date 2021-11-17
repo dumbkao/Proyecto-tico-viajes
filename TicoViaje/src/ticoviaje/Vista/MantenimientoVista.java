@@ -21,7 +21,7 @@ public class MantenimientoVista extends javax.swing.JFrame implements Observer {
 
     public void iniciar() {
         controlador.agregarObservador(this);
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        //setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);

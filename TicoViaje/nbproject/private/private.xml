@@ -4,11 +4,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/PROGRAMMING/PROYECTOS%20U/Proyecto-tico-viajes/TicoViaje/src/ticoviaje/Modelos/Clientes.java</file>
-            <file>file:/D:/PROGRAMMING/PROYECTOS%20U/Proyecto-tico-viajes/TicoViaje/src/ticoviaje/Vista/VistaClientes.java</file>
-            <file>file:/D:/PROGRAMMING/PROYECTOS%20U/Proyecto-tico-viajes/TicoViaje/src/ticoviaje/Controlador/ClientesControlador.java</file>
-            <file>file:/D:/PROGRAMMING/PROYECTOS%20U/Proyecto-tico-viajes/TicoViaje/src/ticoviaje/Vista/VistaEncomiendasCliente.java</file>
-            <file>file:/D:/PROGRAMMING/PROYECTOS%20U/Proyecto-tico-viajes/TicoViaje/src/ticoviaje/Controlador/EncomiendasClienteControlador.java</file>
-            <file>file:/D:/PROGRAMMING/PROYECTOS%20U/Proyecto-tico-viajes/TicoViaje/src/ticoviaje/Modelos/EncomiendasCliente.java</file>
+            <file>file:/D:/PROGRAMMING/PROYECTOS%20U/Proyecto-tico-viajes/TicoViaje/src/ticoviaje/Controlador/EncomiendasControlador.java</file>
+            <file>file:/D:/PROGRAMMING/PROYECTOS%20U/Proyecto-tico-viajes/TicoViaje/src/ticoviaje/Vista/EncomiendasViajeVista.java</file>
+            <file>file:/D:/PROGRAMMING/PROYECTOS%20U/Proyecto-tico-viajes/TicoViaje/src/ticoviaje/Vista/VistaEncomiendas.java</file>
+            <file>file:/D:/PROGRAMMING/PROYECTOS%20U/Proyecto-tico-viajes/TicoViaje/src/ticoviaje/Modelos/Encomiendas.java</file>
         </group>
     </open-files>
 </project-private>

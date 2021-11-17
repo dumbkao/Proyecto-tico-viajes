@@ -32,7 +32,7 @@ public class BusVista extends javax.swing.JFrame implements Observer {
         verificarBotones();
         controlador.setPropietario(propietario);
         controlador.agregarObservador(this);
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        //setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);

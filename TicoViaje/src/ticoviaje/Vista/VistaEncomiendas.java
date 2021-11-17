@@ -19,7 +19,7 @@ public class VistaEncomiendas extends javax.swing.JFrame implements Observer {
         controlador.agregarObservador(this);
         setResizable(false);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        //setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setVisible(true);
     }
 

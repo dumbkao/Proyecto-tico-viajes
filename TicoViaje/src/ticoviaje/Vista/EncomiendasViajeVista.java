@@ -11,6 +11,7 @@ public class EncomiendasViajeVista extends javax.swing.JFrame implements Observe
     private EncomiendasViajeControlador controlador;
     
     public EncomiendasViajeVista(Viaje viaje) {
+        super("EncomiendasViajeVista");
         controlador = new EncomiendasViajeControlador(viaje);
         initComponents();
     }
@@ -18,7 +19,7 @@ public class EncomiendasViajeVista extends javax.swing.JFrame implements Observe
     public void iniciar() {
         controlador.generar_tabla(TablaEncomiendas);
         controlador.agregarObservador(this);
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        //setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);

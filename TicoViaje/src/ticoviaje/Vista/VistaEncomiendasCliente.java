@@ -2,6 +2,8 @@ package ticoviaje.Vista;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import ticoviaje.Controlador.EncomiendasClienteControlador;
 import ticoviaje.Modelos.ConjuntoViajes;
@@ -20,7 +22,7 @@ public class VistaEncomiendasCliente extends javax.swing.JFrame implements Obser
     public void iniciar() {
         controlador.cargarBD(TablaEncomiendas);
         controlador.agregarObservador(this);
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        //setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
@@ -133,7 +135,11 @@ public class VistaEncomiendasCliente extends javax.swing.JFrame implements Obser
         setVisible(false);
     }//GEN-LAST:event_btnRegresarActionPerformed
     private void btnCambiarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarEstadoActionPerformed
-        controlador.cambiar_estado(TablaEncomiendas);
+        try {
+            controlador.cambiar_estado(TablaEncomiendas);
+        } catch (Exception ex) {
+            Logger.getLogger(VistaEncomiendasCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnCambiarEstadoActionPerformed
 
     private void btnAgregarEncomiendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEncomiendaActionPerformed
