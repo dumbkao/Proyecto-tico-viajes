@@ -10,6 +10,7 @@ public class VistaEncomiendas extends javax.swing.JFrame implements Observer {
     private EncomiendasControlador controlador;
 
     public VistaEncomiendas() {
+        super("VistaEncomiendas");
         controlador = new EncomiendasControlador();
         initComponents();
     }
@@ -123,11 +124,9 @@ public class VistaEncomiendas extends javax.swing.JFrame implements Observer {
     public void update(Observable o, Object arg) {
         if (arg == "No se encontro la encomienda") {
             JOptionPane.showMessageDialog(null, "No se encontro la encomienda");
-        }
-        else if (arg == "Debe digitar un codigo valido") {
+        } else if (arg == "Debe digitar un codigo valido") {
             JOptionPane.showMessageDialog(null, "Debe digitar un codigo valido");
-        }
-        else {
+        } else {
             if (arg != null) {
                 JOptionPane.showMessageDialog(null, arg);
             }

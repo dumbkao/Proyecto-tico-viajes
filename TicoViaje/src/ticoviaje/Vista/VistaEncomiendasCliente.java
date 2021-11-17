@@ -11,12 +11,14 @@ public class VistaEncomiendasCliente extends javax.swing.JFrame implements Obser
 
     private EncomiendasClienteControlador controlador;
 
-    public VistaEncomiendasCliente(Cliente cliente, ConjuntoViajes viajes) {
-        controlador = new EncomiendasClienteControlador(cliente, viajes);
+    public VistaEncomiendasCliente(Cliente cliente, ConjuntoViajes viajes, int posicion) {
+        super("VistaEncomiendasCliente");
+        controlador = new EncomiendasClienteControlador(cliente, viajes, posicion);
         initComponents();
     }
 
     public void iniciar() {
+        controlador.cargarBD(TablaEncomiendas);
         controlador.agregarObservador(this);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);

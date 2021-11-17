@@ -1,7 +1,10 @@
 package ticoviaje.Vista;
 
+import java.sql.SQLException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ticoviaje.Controlador.ClientesControlador;
 
 public class VistaClientes extends javax.swing.JFrame implements Observer {
@@ -9,11 +12,13 @@ public class VistaClientes extends javax.swing.JFrame implements Observer {
     private ClientesControlador controlador;
 
     public VistaClientes() {
+        super("VistaClientes");
         controlador = new ClientesControlador();
         initComponents();
     }
 
     public void iniciar() {
+        controlador.cargarBD(TablaClientes);
         controlador.agregarObservador(this);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -119,17 +124,6 @@ public class VistaClientes extends javax.swing.JFrame implements Observer {
         controlador.regresar();
         setVisible(false);
     }//GEN-LAST:event_btnRegresarActionPerformed
-
-    //    private boolean codigoRandom(double codigo) {
-//        for (Cliente cliente : clientes) {
-//            for (Encomienda encomienda : cliente.getEncomiendas().getEncomiendas()) {
-//                if (encomienda.getCodigo() == codigo) {
-//                    return true;
-//                }
-//            }
-//        }
-//        return false;
-//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TablaClientes;

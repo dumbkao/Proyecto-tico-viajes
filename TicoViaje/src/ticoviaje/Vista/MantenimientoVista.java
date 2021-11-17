@@ -14,6 +14,7 @@ public class MantenimientoVista extends javax.swing.JFrame implements Observer {
     private MantenimientoControlador controlador;
 
     public MantenimientoVista(ConjuntoViajes viajes, ArrayList<Chofer> choferes, Flotilla flotilla) {
+        super("MantenimientoVista");
         controlador = new MantenimientoControlador(viajes, choferes, flotilla);
         initComponents();
     }

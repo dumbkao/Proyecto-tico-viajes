@@ -9,6 +9,7 @@ public final class TicoViajesVista extends javax.swing.JFrame implements Observe
     private TicoViajesControlador controlador;
 
     public TicoViajesVista() {
+        super("TicoViajesVista");
         this.controlador = new TicoViajesControlador();
         initComponents();
     }
