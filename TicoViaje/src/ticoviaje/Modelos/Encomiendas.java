@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 import ticoviaje.Bases_Datos.Conexion;
 import ticoviaje.Objetos.Asiento;
 import ticoviaje.Objetos.Chofer;
@@ -106,10 +104,7 @@ public class Encomiendas extends Observable {
     }
 
     public final void agregarViajes() {
-        agregarViaje("Alajuela - San Jose", "Domingo", "12md - 2pm", 5, 1000, 0);
-        agregarViaje("Alajuela - San Jose", "Lunes", "2:30pm - 3:30pm", 5, 1000, 0);
-        agregarViaje("San Jose - Alajuela", "Domingo", "6pm - 7pm", 5, 1000, 0);
-        agregarViaje("San Jose - Alajuela", "Domingo", "10am - 11am", 5, 1000, 0);
+        cargarBD();
     }
 
     public void agregarViaje(String ruta, String fecha, String horario, int kilometros, int costo, int bus) {
@@ -177,15 +172,13 @@ public class Encomiendas extends Observable {
 
             while (rs.next()) {
                 Viaje viaje = new Viaje();
-
                 viaje.setRuta(rs.getString("ruta"));
                 viaje.setFecha(rs.getString("fecha"));
                 viaje.setHorario(rs.getString("horario"));
                 viaje.setKilometros(rs.getInt("kilometros"));
-                viaje.setCosto(rs.getInt("precio"));
+                viaje.setCosto(rs.getInt("costo"));
                 Bus unidad = cargarBus(rs.getInt("idbuses"));
                 viaje.setUnidad(unidad);
-
                 conjuntoViaje.add(viaje);
             }
 
@@ -206,16 +199,12 @@ public class Encomiendas extends Observable {
 
             while (rs.next()) {
                 Bus unidad = new Bus();
-
                 unidad.setEstado(rs.getString("estado"));
                 unidad.setPlaca(rs.getString("placa"));
                 unidad.setNumeroUnico(rs.getInt("numeroUnico"));
                 unidad.setCapacidad(rs.getInt("capacidad"));
                 unidad.setChofer(cargarChofer(rs.getInt("idchofer")));
-
-                //unidad.setAsientos(asientos);
-                //unidad.setViaje(viaje);
-                //unidad.setPropietario(propietario);
+                unidad.setAsientos(cargarAsientos(rs.getInt("idbuses")));
                 setChanged();
                 notifyObservers();
                 return unidad;
@@ -234,11 +223,12 @@ public class Encomiendas extends Observable {
 
         try {
             st = cn.getConexion().createStatement();
-            rs = st.executeQuery("SELECT * FROM buses where (idbuses = " + key + ");");
-
+            rs = st.executeQuery("SELECT * FROM choferes where (idchoferes = " + key + ");");
+            Chofer chofer = new Chofer();
             while (rs.next()) {
-                Chofer chofer = new Chofer();
-
+                chofer.setNombre(rs.getString("nombre"));
+                chofer.setLicencia(rs.getString("licencia"));
+                chofer.setEdad(rs.getInt("edad"));
                 setChanged();
                 notifyObservers();
                 return chofer;
@@ -251,7 +241,28 @@ public class Encomiendas extends Observable {
         return null;
     }
 
-    public ArrayList<Asiento> cargarAsientos() {
+    public ArrayList<Asiento> cargarAsientos(int key) {
+        Statement st;
+        ResultSet rs;
+
+        try {
+            st = cn.getConexion().createStatement();
+            rs = st.executeQuery("SELECT * FROM asientos where (idbus = " + key + ");");
+            ArrayList<Asiento> asientos = new ArrayList();
+            while (rs.next()) {
+                Asiento asiento = new Asiento();
+                asiento.setDisponible(rs.getBoolean("disponible"));
+                asiento.setIdAsiento(rs.getInt("numero"));
+                asiento.setPropetario(rs.getString("propietario"));
+                asientos.add(asiento);
+                setChanged();
+                notifyObservers();
+            }
+            return asientos;
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
         return null;
     }

@@ -71,20 +71,12 @@ public class BusControlador {
         datos.setAsientos(asientos);
     }
 
-    public void aceptarAsientos() {
-        datos.aceptarAsientos();
+    public void aceptarAsientos(Viaje viaje) {
+        datos.aceptarAsientos(viaje);
     }
 
     public void regresar() {
         datos.regresar();
-    }
-
-    public Viaje getViaje() {
-        return datos.getViaje();
-    }
-
-    public void setViaje(Viaje viaje) {
-        datos.setViaje(viaje);
     }
     
     public String getPropietario() {

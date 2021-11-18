@@ -439,8 +439,7 @@ public class BusVista extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_Asiento11MouseClicked
 
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
-        controlador.setViaje(viaje);
-        controlador.aceptarAsientos();
+        controlador.aceptarAsientos(viaje);
     }//GEN-LAST:event_botonAceptarActionPerformed
 
     private void regresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regresarActionPerformed

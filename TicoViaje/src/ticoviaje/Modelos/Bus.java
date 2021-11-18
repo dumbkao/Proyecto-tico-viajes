@@ -18,7 +18,6 @@ public class Bus extends Observable {
     private ArrayList<Asiento> asientos;
     private Chofer chofer;
     private String propietario;
-    private Viaje viaje;
 
     public String getPropietario() {
         return propietario;
@@ -35,21 +34,12 @@ public class Bus extends Observable {
         this.capacidad = 11;
         this.chofer = new Chofer();
         this.asientos = new ArrayList();
-        this.viaje= null;
         this.propietario = "";
         for (int i = 0; i < 11; i++) {
             Asiento asiento = new Asiento();
             asiento.setIdAsiento(i + 1);
             asientos.add(asiento);
         }
-    }
-
-    public Viaje getViaje() {
-        return viaje;
-    }
-
-    public void setViaje(Viaje viaje) {
-        this.viaje = viaje;
     }
 
     public ArrayList<Asiento> getAsientos() {
@@ -135,7 +125,7 @@ public class Bus extends Observable {
         notifyObservers("Actualizando Bus");
     }
 
-    public void aceptarAsientos() {
+    public void aceptarAsientos(Viaje viaje) {
         JOptionPane.showMessageDialog(null, "Los asientos han sido seleccionados");
         TicketVista vista = new TicketVista();
         vista.iniciar(viaje, propietario, asientos_propietario());
