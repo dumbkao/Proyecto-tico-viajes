@@ -81,7 +81,7 @@ public class Clientes extends Observable {
     public boolean verClientes(JTable tabla) {
         int fila = tabla.getSelectedRow();
         if (fila != -1) {
-            VistaEncomiendasCliente vista = new VistaEncomiendasCliente(clientes.get(fila), new ConjuntoViajes(), (fila + 1));
+            VistaEncomiendasCliente vista = new VistaEncomiendasCliente(clientes.get(fila), (fila + 1));
             vista.iniciar();
             return true;
         }

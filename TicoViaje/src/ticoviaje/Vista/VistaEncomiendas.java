@@ -122,14 +122,8 @@ public class VistaEncomiendas extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (arg == "No se encontro la encomienda") {
-            JOptionPane.showMessageDialog(null, "No se encontro la encomienda");
-        } else if (arg == "Debe digitar un codigo valido") {
-            JOptionPane.showMessageDialog(null, "Debe digitar un codigo valido");
-        } else {
-            if (arg != null) {
-                JOptionPane.showMessageDialog(null, arg);
-            }
+        if (arg != null) {
+            JOptionPane.showMessageDialog(null, arg);
         }
     }
 }

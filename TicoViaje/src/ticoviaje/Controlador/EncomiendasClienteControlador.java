@@ -10,8 +10,8 @@ public class EncomiendasClienteControlador {
 
     private EncomiendasCliente modelo;
 
-    public EncomiendasClienteControlador(Cliente cliente, ConjuntoViajes viajes, int posicion) {
-        modelo = new EncomiendasCliente(cliente, viajes, posicion);
+    public EncomiendasClienteControlador(Cliente cliente, int posicion) {
+        modelo = new EncomiendasCliente(cliente, posicion);
     }
 
     public void generarTabla(JTable tabla) {

@@ -18,61 +18,31 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import ticoviaje.Objetos.Asiento;
 
 public class EncomiendasCliente extends Observable {
 
     private static final String COMANDO_INSERTAR = "INSERT INTO encomiendas " + "(peso, codigo, precio, persona_entrega, persona_retira, hora_fecha, estado, idcliente) " + "VALUES(?,?,?,?,?,?,?,?);";
     private static final String COMANDO_ACTUALIZAR = "UPDATE encomiendas SET estado =? WHERE codigo=?;";
+    private static final String COMANDO_ACTUALIZAR_2 = "UPDATE encomiendas SET idviaje =? WHERE codigo=?;";
 
     private Conexion cn;
     private static Cliente cliente;
     private ConjuntoViajes viajes;
-    private Flotilla flotilla;
     private int posicion;
 
-    public EncomiendasCliente(Cliente c, ConjuntoViajes viajes, int posicion) {
+    public EncomiendasCliente(Cliente c, int posicion) {
         this.cn = new Conexion();
         this.posicion = posicion;
         cliente = c;
-        this.viajes = viajes;
-        this.flotilla = new Flotilla();
-        agregarBuses();
-        agregarViajes();
+        viajes = new ConjuntoViajes();
+        cargarViajes();
     }
 
     public void generarTabla(JTable tabla) {
         DefaultTableModel model = (DefaultTableModel) tabla.getModel();
         for (Encomienda encomienda : cliente.getEncomiendas().getEncomiendas()) {
             model.addRow(new Object[]{encomienda.getPeso(), encomienda.getCodigo(), encomienda.getPrecioPorPeso(), encomienda.getPersonaEntrega(), encomienda.getPersonaRetira(), encomienda.getHoraFecha(), encomienda.isEstadoViaje()});
-        }
-    }
-
-    public final void agregarViajes() {
-        agregarViaje("Alajuela - San Jose", "Domingo", "12:00md - 02:00pm", 5, 1000, 0);
-        agregarViaje("Alajuela - San Jose", "Lunes", "02:30pm - 3:30pm", 5, 1000, 1);
-        agregarViaje("San Jose - Alajuela", "Domingo", "06:00pm - 07:00pm", 5, 1000, 2);
-        agregarViaje("San Jose - Alajuela", "Domingo", "10:00am - 11:00am", 5, 1000, 3);
-    }
-
-    public void agregarViaje(String ruta, String fecha, String horario, int kilometros, int costo, int bus) {
-        Viaje viaje = new Viaje();
-        viaje.setRuta(ruta);
-        viaje.setFecha(fecha);
-        viaje.setHorario(horario);
-        viaje.setKilometros(kilometros);
-        viaje.setCosto(costo);
-        viaje.setUnidad(flotilla.getEspecifico(bus));
-        viajes.add(viaje);
-    }
-
-    public final void agregarBuses() {
-        String nombres[] = {"Juanito", "Andres", "Ramses", "Hillary", "Rosa", "Pedrito", "Sofia", "Eduardo", "Jaime", "Jose", "Maria", "Marco", "Lucia", "Jair", "Noel", "Rachel", "Emanuel", "Abigail", "Gerardo", "Wilson"};
-        for (int i = 0; i < 20; i++) {
-            Chofer chofer = new Chofer();
-            chofer.setNombre(nombres[i]);
-            Bus bus = new Bus();
-            bus.setChofer(chofer);
-            flotilla.add(bus);
         }
     }
 
@@ -97,25 +67,26 @@ public class EncomiendasCliente extends Observable {
                 }
             }
             String opc = (String) JOptionPane.showInputDialog(null, "Elija el nuevo estado de la encomienda", "ESTADOS", JOptionPane.QUESTION_MESSAGE, null, opciones.toArray(), opciones.get(0));
-            cliente.getEncomiendas().getEncomiendas().get(fila).setEstadoViaje(opc);
+            if (opc != null) {
+                if (opc.equals("En Viaje")) {
+                    if (agregar_encomienda_a_viaje(tabla, fila) == false) {
+                        opc = cliente.getEncomiendas().getEncomiendas().get(fila).isEstadoViaje();
+                    }
+                }
+                Statement st;
+                st = cn.getConexion().createStatement();
+                PreparedStatement stm = cn.getConexion().prepareStatement(COMANDO_ACTUALIZAR);
 
-            Statement st;
-            st = cn.getConexion().createStatement();
-            PreparedStatement stm = cn.getConexion().prepareStatement(COMANDO_ACTUALIZAR);
+                stm.setString(1, opc);
+                stm.setInt(2, cliente.getEncomiendas().getEncomiendas().get(fila).getCodigo());
 
-            stm.setString(1, opc);
-            stm.setInt(2, cliente.getEncomiendas().getEncomiendas().get(fila).getCodigo());
-
-            if (stm.executeUpdate() != 1) {
-                throw new Exception();
+                if (stm.executeUpdate() != 1) {
+                    throw new Exception();
+                }
+                cliente.getEncomiendas().getEncomiendas().get(fila).setEstadoViaje(opc);
+                DefaultTableModel model = (DefaultTableModel) tabla.getModel();
+                model.setValueAt(opc, fila, 6);
             }
-
-            if (opc.equals("En Viaje")) {
-                agregar_encomienda_a_viaje(tabla, fila);
-            }
-
-            DefaultTableModel model = (DefaultTableModel) tabla.getModel();
-            model.setValueAt(opc, fila, 6);
         }
     }
 
@@ -156,6 +127,7 @@ public class EncomiendasCliente extends Observable {
                         stm.setString(6, timeStamp);
                         stm.setString(7, estadoViaje);
                         stm.setInt(8, posicion);
+                        
 
                         if (stm.executeUpdate() != 1) {
                             throw new Exception();
@@ -166,10 +138,9 @@ public class EncomiendasCliente extends Observable {
                 }
             }
         }
-
     }
 
-    public void agregar_encomienda_a_viaje(JTable tabla, int fila) {
+    public boolean agregar_encomienda_a_viaje(JTable tabla, int fila) throws SQLException, Exception {
         ArrayList<String> listaRuta = viajes.getRutas();
         String ruta = (String) JOptionPane.showInputDialog(null, "Elija la ruta del viaje al que desea agregar la encomienda: ", "RUTAS", JOptionPane.QUESTION_MESSAGE, null, listaRuta.toArray(), listaRuta.get(0));
         if (ruta != null) {
@@ -181,11 +152,22 @@ public class EncomiendasCliente extends Observable {
                 if (horario != null) {
                     Viaje viaje = viajes.obtenerViaje(ruta, dia, horario);
                     viaje.agregarEncomienda(cliente.getEncomiendas().getEncomiendas().get(fila));
+                    Statement st;
+                    st = cn.getConexion().createStatement();
+                    PreparedStatement stm = cn.getConexion().prepareStatement(COMANDO_ACTUALIZAR_2);
+                    stm.setInt(1, obtener_llave(viaje));
+                    stm.setInt(2, viaje.getEncomiendas().getEncomiendas().get(fila).getCodigo());
+
+                    if (stm.executeUpdate() != 1) {
+                        throw new Exception();
+                    }
                     setChanged();
                     notifyObservers("Se ha agregado la encomienda al viaje");
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     public void agregarObservador(Observer observer) {
@@ -222,5 +204,130 @@ public class EncomiendasCliente extends Observable {
 
         setChanged();
         notifyObservers();
+    }
+
+    public final void cargarViajes() {
+        Statement st;
+        ResultSet rs;
+
+        try {
+            st = cn.getConexion().createStatement();
+            rs = st.executeQuery("SELECT * FROM viajes");
+
+            while (rs.next()) {
+                Viaje viaje = new Viaje();
+                viaje.setRuta(rs.getString("ruta"));
+                viaje.setFecha(rs.getString("fecha"));
+                viaje.setHorario(rs.getString("horario"));
+                viaje.setKilometros(rs.getInt("kilometros"));
+                viaje.setCosto(rs.getInt("costo"));
+                Bus unidad = cargarBus(rs.getInt("idbuses"));
+                viaje.setUnidad(unidad);
+                viajes.add(viaje);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        setChanged();
+        notifyObservers();
+    }
+
+    public Bus cargarBus(int key) {
+        Statement st;
+        ResultSet rs;
+
+        try {
+            st = cn.getConexion().createStatement();
+            rs = st.executeQuery("SELECT * FROM buses where (idbuses = " + key + ");");
+
+            while (rs.next()) {
+                Bus unidad = new Bus();
+                unidad.setEstado(rs.getString("estado"));
+                unidad.setPlaca(rs.getString("placa"));
+                unidad.setNumeroUnico(rs.getInt("numeroUnico"));
+                unidad.setCapacidad(rs.getInt("capacidad"));
+                unidad.setChofer(cargarChofer(rs.getInt("idchofer")));
+                unidad.setAsientos(cargarAsientos(rs.getInt("idbuses")));
+                setChanged();
+                notifyObservers();
+                return unidad;
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public Chofer cargarChofer(int key) {
+
+        Statement st;
+        ResultSet rs;
+
+        try {
+            st = cn.getConexion().createStatement();
+            rs = st.executeQuery("SELECT * FROM choferes where (idchoferes = " + key + ");");
+            Chofer chofer = new Chofer();
+            while (rs.next()) {
+                chofer.setNombre(rs.getString("nombre"));
+                chofer.setLicencia(rs.getString("licencia"));
+                chofer.setEdad(rs.getInt("edad"));
+                setChanged();
+                notifyObservers();
+                return chofer;
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
+    public ArrayList<Asiento> cargarAsientos(int key) {
+        Statement st;
+        ResultSet rs;
+
+        try {
+            st = cn.getConexion().createStatement();
+            rs = st.executeQuery("SELECT * FROM asientos where (idbus = " + key + ");");
+            ArrayList<Asiento> asientos = new ArrayList();
+            while (rs.next()) {
+                Asiento asiento = new Asiento();
+                asiento.setDisponible(rs.getBoolean("disponible"));
+                asiento.setIdAsiento(rs.getInt("numero"));
+                asiento.setPropetario(rs.getString("propietario"));
+                asientos.add(asiento);
+                setChanged();
+                notifyObservers();
+            }
+            return asientos;
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
+    public int obtener_llave(Viaje viaje) {
+        Statement st;
+        ResultSet rs;
+
+        try {
+            st = cn.getConexion().createStatement();
+            rs = st.executeQuery("SELECT * FROM viajes WHERE (ruta = \"" + viaje.getRuta() + "\") AND (fecha = \"" + viaje.getFecha() + "\") AND (horario = \"" + viaje.getHorario() + "\");");
+
+            while (rs.next()) {
+                setChanged();
+                notifyObservers();
+                return rs.getInt("idviajes");
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
     }
 }

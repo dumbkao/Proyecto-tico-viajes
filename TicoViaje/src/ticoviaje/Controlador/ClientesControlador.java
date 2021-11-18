@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.Observer;
 import ticoviaje.Modelos.Clientes;
 import javax.swing.JTable;
+import ticoviaje.Modelos.ConjuntoViajes;
 
 public class ClientesControlador {
 

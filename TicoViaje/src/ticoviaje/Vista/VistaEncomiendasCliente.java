@@ -6,16 +6,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import ticoviaje.Controlador.EncomiendasClienteControlador;
-import ticoviaje.Modelos.ConjuntoViajes;
 import ticoviaje.Objetos.Cliente;
 
 public class VistaEncomiendasCliente extends javax.swing.JFrame implements Observer {
 
     private EncomiendasClienteControlador controlador;
 
-    public VistaEncomiendasCliente(Cliente cliente, ConjuntoViajes viajes, int posicion) {
+    public VistaEncomiendasCliente(Cliente cliente, int posicion) {
         super("VistaEncomiendasCliente");
-        controlador = new EncomiendasClienteControlador(cliente, viajes, posicion);
+        controlador = new EncomiendasClienteControlador(cliente, posicion);
         initComponents();
     }
 

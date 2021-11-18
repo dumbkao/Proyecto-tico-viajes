@@ -51,12 +51,12 @@ public class EncomiendasViaje extends Observable {
                 nuevaE.setHoraFecha(rs.getString("hora_fecha"));
                 nuevaE.setEstadoViaje(rs.getString("estado"));
                 viaje.getEncomiendas().add(nuevaE);
+
             }
 
         } catch (Exception e) {
             System.out.println(e);
         }
-
         setChanged();
         notifyObservers();
     }

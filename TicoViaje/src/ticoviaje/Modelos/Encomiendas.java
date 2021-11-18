@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import ticoviaje.Bases_Datos.Conexion;
 import ticoviaje.Objetos.Asiento;
 import ticoviaje.Objetos.Chofer;
@@ -27,9 +28,7 @@ public class Encomiendas extends Observable {
         conjuntoViaje = new ConjuntoViajes();
         flotilla = new Flotilla();
         clientes = new ArrayList();
-        agregarBuses();
         agregarViajes();
-        cargarClientes();
     }
 
     public void ver_clientes() {
@@ -65,7 +64,7 @@ public class Encomiendas extends Observable {
     public void encomienda_codigo() {
         String codigo = JOptionPane.showInputDialog(null, "Digite el codigo:");
         if (codigo != null && !codigo.equals("") && codigo.matches("[-+]?\\d*\\.?\\d+") == true) {
-            String informacion = imprimirEncomienda(codigo);
+            String informacion = imprimirEncomienda(Integer.parseInt(codigo));
             if (informacion != null) {
                 setChanged();
                 notifyObservers(informacion);
@@ -79,15 +78,32 @@ public class Encomiendas extends Observable {
         }
     }
 
-    public String imprimirEncomienda(String codigo) {
-        int numero_codigo = Integer.parseInt(codigo);
-        for (Cliente cliente : clientes) {
-            for (Encomienda encomienda : cliente.getEncomiendas().getEncomiendas()) {
-                if (encomienda.getCodigo() == numero_codigo) {
-                    return toStringEncomienda(encomienda);
-                }
+    public String imprimirEncomienda(int codigo) {
+        Statement st;
+        ResultSet rs;
+
+        try {
+            st = cn.getConexion().createStatement();
+            rs = st.executeQuery("SELECT * FROM encomiendas WHERE (codigo = " + codigo + ")");
+
+            while (rs.next()) {
+                Encomienda nuevaE = new Encomienda();
+                nuevaE.setPeso(rs.getInt("peso"));
+                nuevaE.setCodigo(rs.getInt("codigo"));
+                nuevaE.setPrecioPorPeso(rs.getInt("precio"));
+                nuevaE.setPersonaEntrega(rs.getString("persona_entrega"));
+                nuevaE.setPersonaRetira(rs.getString("persona_retira"));
+                nuevaE.setHoraFecha(rs.getString("hora_fecha"));
+                nuevaE.setEstadoViaje(rs.getString("estado"));
+                return toStringEncomienda(nuevaE);
+
             }
+
+        } catch (Exception e) {
+            System.out.println(e);
         }
+        setChanged();
+        notifyObservers();
         return null;
     }
 
@@ -107,54 +123,6 @@ public class Encomiendas extends Observable {
         cargarBD();
     }
 
-    public void agregarViaje(String ruta, String fecha, String horario, int kilometros, int costo, int bus) {
-        Viaje viaje = new Viaje();
-        viaje.setRuta(ruta);
-        viaje.setFecha(fecha);
-        viaje.setHorario(horario);
-        viaje.setKilometros(kilometros);
-        viaje.setCosto(costo);
-        viaje.setUnidad(flotilla.getEspecifico(bus));
-        conjuntoViaje.add(viaje);
-    }
-
-    public final void agregarBuses() {
-        String nombres[] = {"Juanito", "Andres", "Ramses", "Hillary", "Rosa", "Pedrito", "Sofia", "Eduardo", "Jaime", "Jose", "Maria", "Marco", "Lucia", "Jair", "Noel", "Rachel", "Emanuel", "Abigail", "Gerardo", "Wilson"};
-        for (int i = 0; i < 20; i++) {
-            Chofer chofer = new Chofer();
-            chofer.setNombre(nombres[i]);
-            Bus bus = new Bus();
-            bus.setChofer(chofer);
-            flotilla.add(bus);
-        }
-    }
-
-    public final void cargarClientes() {
-        Cliente cliente1 = new Cliente();
-        Cliente cliente2 = new Cliente();
-        Cliente cliente3 = new Cliente();
-        Cliente cliente4 = new Cliente();
-        Cliente cliente5 = new Cliente();
-        cliente1.setNombre("Ramses");
-        cliente2.setNombre("Hillary");
-        cliente3.setNombre("Andres");
-        cliente4.setNombre("Pepelefu");
-        cliente5.setNombre("Jennifer");
-        Encomienda encomienda = new Encomienda();
-        encomienda.setCodigo(123);
-        encomienda.setEstadoViaje("Omegalol");
-        encomienda.setHoraFecha("14-11-2021 06:54pm");
-        encomienda.setPersonaEntrega("Ramon");
-        encomienda.setPersonaRetira("El Chavo");
-        encomienda.setPeso(7);
-        encomienda.setPrecioPorPeso(7000);
-        cliente4.getEncomiendas().add(encomienda);
-        clientes.add(cliente1);
-        clientes.add(cliente2);
-        clientes.add(cliente3);
-        clientes.add(cliente4);
-        clientes.add(cliente5);
-    }
 
     public void agregarObservador(Observer observer) {
         addObserver(observer);
