@@ -1,4 +1,4 @@
-package ticoviaje.Modelos;
+ package ticoviaje.Modelos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -169,7 +169,6 @@ public class Encomiendas extends Observable {
                 Bus unidad = new Bus();
                 unidad.setEstado(rs.getString("estado"));
                 unidad.setPlaca(rs.getString("placa"));
-                unidad.setNumeroUnico(rs.getInt("numeroUnico"));
                 unidad.setCapacidad(rs.getInt("capacidad"));
                 unidad.setChofer(cargarChofer(rs.getInt("idchofer")));
                 unidad.setAsientos(cargarAsientos(rs.getInt("idbuses")));

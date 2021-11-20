@@ -10,6 +10,8 @@ import ticoviaje.Objetos.Chofer;
 import ticoviaje.Vista.TicoViajesVista;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import ticoviaje.Objetos.Asiento;
 
 public class Mantenimiento extends Observable {
 
@@ -90,17 +92,36 @@ public class Mantenimiento extends Observable {
                                                                     nuevo_viaje.setCosto(numero_costo);
                                                                     nuevo_viaje.setUnidad(bus_seleccionado);
                                                                     viajes.add(nuevo_viaje);
-                                                                    setChanged();
-                                                                    notifyObservers("Nuevo Viaje Creado y Guardado con Exito");
-                                                                    String informacion = informacion_viaje(nuevo_viaje);
-                                                                    setChanged();
-                                                                    notifyObservers(informacion);
+                                                                    try {
+                                                                        PreparedStatement statement = conexion.getConexion().prepareStatement("INSERT INTO viajes (ruta, fecha, horario, kilometros, costo, idbuses) VALUES (?,?,?,?,?,?);");
+                                                                        statement.setString(1, ruta);
+                                                                        statement.setString(2, dia);
+                                                                        statement.setString(3, horario);
+                                                                        statement.setInt(4, numero_kilometros);
+                                                                        statement.setInt(5, numero_costo);
+                                                                        statement.setInt(6, numero_bus);
+                                                                        if (statement.executeUpdate() != 1) {
+                                                                            throw new SQLException();
+                                                                        }
+                                                                        PreparedStatement statement2 = conexion.getConexion().prepareStatement("UPDATE buses SET idchofer =? WHERE idbuses =?");
+                                                                        statement2.setInt(1, obtenerLlaveChofer(bus_seleccionado.getChofer().getLicencia()));
+                                                                        statement2.setInt(2, numero_bus);
+                                                                        if (statement2.executeUpdate() != 1) {
+                                                                            throw new SQLException();
+                                                                        }
+                                                                        setChanged();
+                                                                        notifyObservers("El Viaje se ha agregado con Exito");
+                                                                        String informacion = informacion_viaje(nuevo_viaje);
+                                                                        setChanged();
+                                                                        notifyObservers(informacion);
+                                                                    } catch (SQLException e) {
+                                                                        System.err.println(e);
+                                                                    }
                                                                 }
                                                             }
                                                         }
                                                     }
-                                                }
-                                                else {
+                                                } else {
                                                     setChanged();
                                                     notifyObservers("No se puede agregar el viaje, el viaje ya existe");
                                                 }
@@ -113,8 +134,7 @@ public class Mantenimiento extends Observable {
                     }
                 }
             }
-        }
-        else {
+        } else {
             setChanged();
             notifyObservers("No se puede ingresar un viaje, no hay choferes registrados");
         }
@@ -150,9 +170,8 @@ public class Mantenimiento extends Observable {
                 }
                 setChanged();
                 notifyObservers("Nuevo Chofer Guardado con Exito");
-                
-            }
-            catch (SQLException e) {
+
+            } catch (SQLException e) {
                 System.out.println(e);
             }
         }
@@ -161,6 +180,7 @@ public class Mantenimiento extends Observable {
     public void regresar() {
         TicoViajesVista vista = new TicoViajesVista();
         vista.iniciar();
+        conexion.cerrar();
     }
 
     public String informacion_viaje(Viaje viaje) {
@@ -175,44 +195,44 @@ public class Mantenimiento extends Observable {
     }
 
     public void remover_viaje() {
-        if (viajes.getViajes().size() > 0) {
-            ArrayList<String> listaRuta = viajes.getRutas();
-            String ruta = (String) JOptionPane.showInputDialog(null, "Elija la ruta del viaje que desea eliminar: ", "RUTAS", JOptionPane.QUESTION_MESSAGE, null, listaRuta.toArray(), listaRuta.get(0));
-            if (ruta != null) {
-                ArrayList<String> listaFecha = viajes.getDiasRuta(ruta);
-                String dia = (String) JOptionPane.showInputDialog(null, "Elija el dia del viaje que desea eliminar: ", "DIAS", JOptionPane.QUESTION_MESSAGE, null, listaFecha.toArray(), listaFecha.get(0));
-                if (dia != null) {
-                    ArrayList<String> listaHorarios = viajes.getHorarioDiaRuta(ruta, dia);
-                    String horario = (String) JOptionPane.showInputDialog(null, "Elija el horario del viaje que desea eliminar: ", "HORARIOS", JOptionPane.QUESTION_MESSAGE, null, listaHorarios.toArray(), listaHorarios.get(0));
-                    if (horario != null) {
-                        viajes.remover(ruta, dia, horario);
-                        setChanged();
-                        notifyObservers("Se ha removido el viaje con Exito");
-                    }
-                }
-            }
-        } else {
-            setChanged();
-            notifyObservers("No existe ningun viaje registrado");
-        }
+//        if (viajes.getViajes().size() > 0) {
+//            ArrayList<String> listaRuta = viajes.getRutas();
+//            String ruta = (String) JOptionPane.showInputDialog(null, "Elija la ruta del viaje que desea eliminar: ", "RUTAS", JOptionPane.QUESTION_MESSAGE, null, listaRuta.toArray(), listaRuta.get(0));
+//            if (ruta != null) {
+//                ArrayList<String> listaFecha = viajes.getDiasRuta(ruta);
+//                String dia = (String) JOptionPane.showInputDialog(null, "Elija el dia del viaje que desea eliminar: ", "DIAS", JOptionPane.QUESTION_MESSAGE, null, listaFecha.toArray(), listaFecha.get(0));
+//                if (dia != null) {
+//                    ArrayList<String> listaHorarios = viajes.getHorarioDiaRuta(ruta, dia);
+//                    String horario = (String) JOptionPane.showInputDialog(null, "Elija el horario del viaje que desea eliminar: ", "HORARIOS", JOptionPane.QUESTION_MESSAGE, null, listaHorarios.toArray(), listaHorarios.get(0));
+//                    if (horario != null) {
+//                        viajes.remover(ruta, dia, horario);
+//                        setChanged();
+//                        notifyObservers("Se ha removido el viaje con Exito");
+//                    }
+//                }
+//            }
+//        } else {
+//            setChanged();
+//            notifyObservers("No existe ningun viaje registrado");
+//        }
     }
 
     public void remover_chofer() {
-        if (choferes.size() > 0) {
-            ArrayList<String> nombres_choferes = new ArrayList();
-            for (Chofer chofer : choferes) {
-                nombres_choferes.add(chofer.getNombre());
-            }
-            String chofer = (String) JOptionPane.showInputDialog(null, "Digite el chofer que desea remover del sistema: ", "CHOFERES", JOptionPane.QUESTION_MESSAGE, null, nombres_choferes.toArray(), nombres_choferes.get(0));
-            if (chofer != null) {
-                choferes.remove(obtenerChofer(chofer));
-                setChanged();
-                notifyObservers("Se ha removido el chofer con exito");
-            }
-        } else {
-            setChanged();
-            notifyObservers("No existen choferes registrados");
-        }
+//        if (choferes.size() > 0) {
+//            ArrayList<String> nombres_choferes = new ArrayList();
+//            for (Chofer chofer : choferes) {
+//                nombres_choferes.add(chofer.getNombre());
+//            }
+//            String chofer = (String) JOptionPane.showInputDialog(null, "Digite el chofer que desea remover del sistema: ", "CHOFERES", JOptionPane.QUESTION_MESSAGE, null, nombres_choferes.toArray(), nombres_choferes.get(0));
+//            if (chofer != null) {
+//                choferes.remove(obtenerChofer(chofer));
+//                setChanged();
+//                notifyObservers("Se ha removido el chofer con exito");
+//            }
+//        } else {
+//            setChanged();
+//            notifyObservers("No existen choferes registrados");
+//        }
     }
 
     public Chofer obtenerChofer(String nombre) {
@@ -222,6 +242,20 @@ public class Mantenimiento extends Observable {
             }
         }
         return null;
+    }
+    
+    public int obtenerLlaveChofer(String licencia) {
+        try {
+            Statement statement = conexion.getConexion().createStatement();
+            ResultSet query = statement.executeQuery("SELECT * FROM choferes WHERE licencia = \"" + licencia + "\";");
+            if (query.next()) {
+                return query.getInt("idchoferes");
+            }
+        }
+        catch (SQLException e) {
+            System.err.println(e);
+        }
+        return 0;
     }
 
     public void agregarObservador(Observer observer) {

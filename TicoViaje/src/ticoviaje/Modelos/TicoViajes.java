@@ -1,9 +1,14 @@
 package ticoviaje.Modelos;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JOptionPane;
+import ticoviaje.Bases_Datos.Conexion;
+import ticoviaje.Objetos.Asiento;
 import ticoviaje.Vista.BusVista;
 import ticoviaje.Vista.VistaEncomiendas;
 import ticoviaje.Objetos.Chofer;
@@ -14,42 +19,16 @@ public class TicoViajes extends Observable {
     private ConjuntoViajes conjuntoViaje;
     private Flotilla flotilla;
     private ArrayList<Chofer> choferes;
+    private Conexion conexion;
 
     public TicoViajes() {
+        conexion = new Conexion();
         this.conjuntoViaje = new ConjuntoViajes();
         this.flotilla = new Flotilla();
         this.choferes = new ArrayList();
-        agregarBuses();
-        agregarViajes();
-    }
-
-    public final void agregarViajes() {
-        agregarViaje("Alajuela - San Jose", "Domingo", "12:00md - 02:00pm", 5, 1000, 0);
-        agregarViaje("Alajuela - San Jose", "Lunes", "02:30pm - 3:30pm", 5, 1000, 1);
-        agregarViaje("San Jose - Alajuela", "Domingo", "06:00pm - 07:00pm", 5, 1000, 2);
-        agregarViaje("San Jose - Alajuela", "Domingo", "10:00am - 11:00am", 5, 1000, 3);
-    }
-
-    public void agregarViaje(String ruta, String fecha, String horario, int kilometros, int costo, int bus) {
-        Viaje viaje = new Viaje();
-        viaje.setRuta(ruta);
-        viaje.setFecha(fecha);
-        viaje.setHorario(horario);
-        viaje.setKilometros(kilometros);
-        viaje.setCosto(costo);
-        viaje.setUnidad(flotilla.getEspecifico(bus));
-        conjuntoViaje.add(viaje);
-    }
-
-    public final void agregarBuses() {
-        String nombres[] = {"Juanito", "Andres", "Ramses", "Hillary", "Rosa", "Pedrito", "Sofia", "Eduardo", "Jaime", "Jose", "Maria", "Marco", "Lucia", "Jair", "Noel", "Rachel", "Emanuel", "Abigail", "Gerardo", "Wilson"};
-        for (int i = 0; i < 20; i++) {
-            Chofer chofer = new Chofer();
-            chofer.setNombre(nombres[i]);
-            Bus bus = new Bus();
-            bus.setChofer(chofer);
-            flotilla.add(bus);
-        }
+        cargarViajes();
+        cargarFlotilla();
+        cargarListaChoferes();
     }
 
     public void agregarObservador(Observer o) {
@@ -98,6 +77,162 @@ public class TicoViajes extends Observable {
     public void mantenimiento() {
         MantenimientoVista vista = new MantenimientoVista(conjuntoViaje, choferes, flotilla);
         vista.iniciar();
+    }
+    
+    public final void cargarViajes() {
+        Statement st;
+        ResultSet rs;
+
+        try {
+            st = conexion.getConexion().createStatement();
+            rs = st.executeQuery("SELECT * FROM viajes");
+
+            while (rs.next()) {
+                Viaje viaje = new Viaje();
+                viaje.setRuta(rs.getString("ruta"));
+                viaje.setFecha(rs.getString("fecha"));
+                viaje.setHorario(rs.getString("horario"));
+                viaje.setKilometros(rs.getInt("kilometros"));
+                viaje.setCosto(rs.getInt("costo"));
+                Bus unidad = cargarBus(rs.getInt("idbuses"));
+                viaje.setUnidad(unidad);
+                conjuntoViaje.add(viaje);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        setChanged();
+        notifyObservers();
+    }
+
+    public Bus cargarBus(int key) {
+        Statement st;
+        ResultSet rs;
+
+        try {
+            st = conexion.getConexion().createStatement();
+            rs = st.executeQuery("SELECT * FROM buses where (idbuses = " + key + ");");
+
+            while (rs.next()) {
+                Bus unidad = new Bus();
+                unidad.setEstado(rs.getString("estado"));
+                unidad.setPlaca(rs.getString("placa"));
+                unidad.setCapacidad(rs.getInt("capacidad"));
+                unidad.setChofer(cargarChofer(rs.getInt("idchofer")));
+                unidad.setAsientos(cargarAsientos(rs.getInt("idbuses")));
+                setChanged();
+                notifyObservers();
+                return unidad;
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public Chofer cargarChofer(int key) {
+
+        Statement st;
+        ResultSet rs;
+
+        try {
+            st = conexion.getConexion().createStatement();
+            rs = st.executeQuery("SELECT * FROM choferes where (idchoferes = " + key + ");");
+            Chofer chofer = new Chofer();
+            while (rs.next()) {
+                chofer.setNombre(rs.getString("nombre"));
+                chofer.setLicencia(rs.getString("licencia"));
+                chofer.setEdad(rs.getInt("edad"));
+                setChanged();
+                notifyObservers();
+                return chofer;
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
+    public ArrayList<Asiento> cargarAsientos(int key) {
+        Statement st;
+        ResultSet rs;
+
+        try {
+            st = conexion.getConexion().createStatement();
+            rs = st.executeQuery("SELECT * FROM asientos where (idbus = " + key + ");");
+            ArrayList<Asiento> asientos = new ArrayList();
+            while (rs.next()) {
+                Asiento asiento = new Asiento();
+                asiento.setDisponible(rs.getBoolean("disponible"));
+                asiento.setIdAsiento(rs.getInt("numero"));
+                asiento.setPropetario(rs.getString("propietario"));
+                asientos.add(asiento);
+                setChanged();
+                notifyObservers();
+            }
+            return asientos;
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
+    
+     public final void cargarFlotilla() {
+        Statement st;
+        ResultSet rs;
+
+        try {
+            st = conexion.getConexion().createStatement();
+            rs = st.executeQuery("SELECT * FROM buses");
+
+            while (rs.next()) {
+                Bus unidad = new Bus();
+                unidad.setEstado(rs.getString("estado"));
+                unidad.setPlaca(rs.getString("placa"));
+                unidad.setCapacidad(rs.getInt("capacidad"));
+                unidad.setChofer(cargarChofer(rs.getInt("idchofer")));
+                unidad.setAsientos(cargarAsientos(rs.getInt("idbuses")));
+                flotilla.add(unidad);
+                setChanged();
+                notifyObservers();
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        setChanged();
+        notifyObservers();
+    }
+     
+     public final void cargarListaChoferes() {
+        Statement st;
+        ResultSet rs;
+
+        try {
+            st = conexion.getConexion().createStatement();
+            rs = st.executeQuery("SELECT * FROM choferes");
+
+            while (rs.next()) {
+                Chofer chofer = new Chofer();
+                chofer.setNombre(rs.getString("nombre"));
+                chofer.setLicencia(rs.getString("licencia"));
+                chofer.setEdad(rs.getInt("edad"));
+                choferes.add(chofer);
+                setChanged();
+                notifyObservers();
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        setChanged();
+        notifyObservers();
     }
 
 }
