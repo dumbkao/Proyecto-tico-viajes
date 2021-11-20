@@ -26,7 +26,7 @@ public class Chofer {
     }
 
     public static String licenciaAleatoria() {
-        char[] chars = "0123456789abcdefghijklmnopqrstuvwxyz".toCharArray();
+        char[] chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWYZ".toCharArray();
 
         int charsLength = chars.length;
 
@@ -34,11 +34,11 @@ public class Chofer {
 
         StringBuilder buffer = new StringBuilder();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 6; i++) {
             buffer.append(chars[random.nextInt(charsLength)]);
         }
 
-        return ("c2" + buffer.toString());
+        return ("C2 " + buffer.toString());
     }
 
     public void setLicencia(String licencia) {

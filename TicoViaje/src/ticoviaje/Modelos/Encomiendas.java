@@ -1,12 +1,12 @@
 package ticoviaje.Modelos;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import ticoviaje.Bases_Datos.Conexion;
 import ticoviaje.Objetos.Asiento;
 import ticoviaje.Objetos.Chofer;
@@ -132,7 +132,7 @@ public class Encomiendas extends Observable {
 
     public void cargarBD() {
         Statement st;
-        ResultSet rs;
+        ResultSet rs; // Es que poseera el resultado de la consulta de la base de datos
 
         try {
             st = cn.getConexion().createStatement();
@@ -150,7 +150,7 @@ public class Encomiendas extends Observable {
                 conjuntoViaje.add(viaje);
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println(e);
         }
         setChanged();
@@ -178,7 +178,7 @@ public class Encomiendas extends Observable {
                 return unidad;
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println(e);
         }
         return null;
@@ -202,7 +202,7 @@ public class Encomiendas extends Observable {
                 return chofer;
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println(e);
         }
 

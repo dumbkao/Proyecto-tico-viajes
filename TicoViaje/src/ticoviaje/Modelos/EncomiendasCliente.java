@@ -128,7 +128,7 @@ public class EncomiendasCliente extends Observable {
                         stm.setString(7, estadoViaje);
                         stm.setInt(8, posicion);
                         
-
+                        // Se verifica si se logra insertar correctamente en la base de datos y una unica vez
                         if (stm.executeUpdate() != 1) {
                             throw new Exception();
                         }

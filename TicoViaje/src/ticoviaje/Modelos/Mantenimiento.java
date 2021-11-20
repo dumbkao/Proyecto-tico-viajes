@@ -1,22 +1,28 @@
 package ticoviaje.Modelos;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JOptionPane;
+import ticoviaje.Bases_Datos.Conexion;
 import ticoviaje.Objetos.Chofer;
 import ticoviaje.Vista.TicoViajesVista;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
 
 public class Mantenimiento extends Observable {
 
     private ConjuntoViajes viajes;
     private ArrayList<Chofer> choferes;
     private Flotilla flotilla;
+    private Conexion conexion;
 
     public Mantenimiento(ConjuntoViajes viajes, ArrayList<Chofer> choferes, Flotilla flotilla) {
         this.viajes = viajes;
         this.choferes = choferes;
         this.flotilla = flotilla;
+        conexion = new Conexion();
     }
 
     public void agregar_viaje() {
@@ -133,8 +139,22 @@ public class Mantenimiento extends Observable {
             Chofer nuevo_chofer = new Chofer();
             nuevo_chofer.setNombre(nombre);
             choferes.add(nuevo_chofer);
-            setChanged();
-            notifyObservers("Nuevo Chofer Guardado con Exito");
+            try {
+                Statement statement = conexion.getConexion().createStatement();
+                PreparedStatement prepared_statement = conexion.getConexion().prepareStatement("INSERT INTO choferes (nombre, licencia, edad) VALUES (?,?,?);");
+                prepared_statement.setString(1, nuevo_chofer.getNombre());
+                prepared_statement.setString(2, nuevo_chofer.getLicencia());
+                prepared_statement.setInt(3, nuevo_chofer.getEdad());
+                if (prepared_statement.executeUpdate() != 1) {
+                    throw new SQLException();
+                }
+                setChanged();
+                notifyObservers("Nuevo Chofer Guardado con Exito");
+                
+            }
+            catch (SQLException e) {
+                System.out.println(e);
+            }
         }
     }
 

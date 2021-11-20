@@ -2,6 +2,7 @@ package ticoviaje.Bases_Datos;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Conexion {
 
@@ -9,9 +10,10 @@ public class Conexion {
 
     public Conexion() {
         try {
+            // Referencia a la libreria que funciona para la conexion con mysql
             Class.forName("com.mysql.cj.jdbc.Driver");
             conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/proyecto", "root", "12345");
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             System.err.println("Error: " + e);
         }
     }
@@ -27,7 +29,7 @@ public class Conexion {
     public void cerrar() {
         try {
             conexion.close();
-        } catch (Exception exc) {
+        } catch (SQLException exc) {
         } finally {
             conexion = null;
         }
