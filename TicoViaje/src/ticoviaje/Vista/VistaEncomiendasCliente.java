@@ -21,7 +21,6 @@ public class VistaEncomiendasCliente extends javax.swing.JFrame implements Obser
     public void iniciar() {
         controlador.cargarBD(TablaEncomiendas);
         controlador.agregarObservador(this);
-        //setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);

@@ -54,7 +54,7 @@ public class Bus extends Observable {
     public void setAsientos(ArrayList<Asiento> asientos) {
         this.asientos = asientos;
         setChanged();
-        notifyObservers("Actualizando Bus");
+        notifyObservers();
     }
 
     public String getEstado() {
@@ -64,7 +64,7 @@ public class Bus extends Observable {
     public void setEstado(String estado) {
         this.estado = estado;
         setChanged();
-        notifyObservers("Actualizando Bus");
+        notifyObservers();
     }
 
     public String getPlaca() {
@@ -91,7 +91,7 @@ public class Bus extends Observable {
     public void setPlaca(String placa) {
         this.placa = placa;
         setChanged();
-        notifyObservers("Actualizando Bus");
+        notifyObservers();
     }
 
     public int getCapacidad() {
@@ -101,7 +101,7 @@ public class Bus extends Observable {
     public void setCapacidad(int capacidad) {
         this.capacidad = capacidad;
         setChanged();
-        notifyObservers("Actualizando Bus");
+        notifyObservers();
     }
 
     public Chofer getChofer() {
@@ -111,27 +111,35 @@ public class Bus extends Observable {
     public void setChofer(Chofer chofer) {
         this.chofer = chofer;
         setChanged();
-        notifyObservers("Actualizando Bus");
+        notifyObservers();
     }
 
     public void agregarObservador(Observer observador) {
         addObserver(observador);
         setChanged();
-        notifyObservers("Actualizando Bus");
+        notifyObservers();
     }
 
     public void aceptarAsientos(Viaje viaje) {
-        JOptionPane.showMessageDialog(null, "Los asientos han sido seleccionados");
-        TicketVista vista = new TicketVista();
-        vista.iniciar(viaje, propietario, asientos_propietario());
-        guardarAsientos();
+        String informacion = asientos_propietario();
+        if (!informacion.equals("")) {
+            JOptionPane.showMessageDialog(null, "Los asientos han sido seleccionados");
+            TicketVista vista = new TicketVista();
+            vista.iniciar(viaje, propietario, informacion);
+            guardarAsientos();
+        }
+        else {
+            setChanged();
+            notifyObservers("No se pueden aceptar asientos, no hay asientos seleccionados");
+        }
     }
-    public void regresar(){
+
+    public void regresar() {
         TicoViajesVista vista = new TicoViajesVista();
         vista.iniciar();
         conexion.cerrar();
     }
-    
+
     public String asientos_propietario() {
         String informacion = "";
         for (Asiento asiento : asientos) {
@@ -141,7 +149,7 @@ public class Bus extends Observable {
         }
         return informacion;
     }
-    
+
     public void guardarAsientos() {
         try {
             PreparedStatement statement = conexion.getConexion().prepareStatement("UPDATE asientos SET propietario = ?, disponible = ? WHERE idBus = ? and numero = ?");
@@ -156,12 +164,11 @@ public class Bus extends Observable {
                     }
                 }
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             System.err.println(e);
         }
     }
-    
+
     public int obtenerLlaveBus(String placa) {
         try {
             Statement statement = conexion.getConexion().createStatement();
@@ -169,8 +176,7 @@ public class Bus extends Observable {
             if (query.next()) {
                 return query.getInt("idbuses");
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             System.err.println(e);
         }
         return 0;

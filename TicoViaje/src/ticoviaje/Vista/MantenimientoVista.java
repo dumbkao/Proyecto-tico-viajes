@@ -33,9 +33,7 @@ public class MantenimientoVista extends javax.swing.JFrame implements Observer {
 
         jPanel1 = new javax.swing.JPanel();
         Regresar = new javax.swing.JButton();
-        RemoverChofer = new javax.swing.JButton();
         AgregarChofer = new javax.swing.JButton();
-        RemoverViaje = new javax.swing.JButton();
         AgregarViaje = new javax.swing.JButton();
         Fondo = new javax.swing.JLabel();
 
@@ -50,16 +48,7 @@ public class MantenimientoVista extends javax.swing.JFrame implements Observer {
                 RegresarActionPerformed(evt);
             }
         });
-        jPanel1.add(Regresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 420, 150, -1));
-
-        RemoverChofer.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        RemoverChofer.setText("Remover Chofer");
-        RemoverChofer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RemoverChoferActionPerformed(evt);
-            }
-        });
-        jPanel1.add(RemoverChofer, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 330, 230, -1));
+        jPanel1.add(Regresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 380, 150, -1));
 
         AgregarChofer.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         AgregarChofer.setText("Agregar Chofer");
@@ -68,16 +57,7 @@ public class MantenimientoVista extends javax.swing.JFrame implements Observer {
                 AgregarChoferActionPerformed(evt);
             }
         });
-        jPanel1.add(AgregarChofer, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 330, 230, -1));
-
-        RemoverViaje.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        RemoverViaje.setText("Remover Viaje");
-        RemoverViaje.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RemoverViajeActionPerformed(evt);
-            }
-        });
-        jPanel1.add(RemoverViaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 240, 210, -1));
+        jPanel1.add(AgregarChofer, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 270, 230, -1));
 
         AgregarViaje.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         AgregarViaje.setText("Agregar Viaje");
@@ -86,7 +66,7 @@ public class MantenimientoVista extends javax.swing.JFrame implements Observer {
                 AgregarViajeActionPerformed(evt);
             }
         });
-        jPanel1.add(AgregarViaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 240, 210, -1));
+        jPanel1.add(AgregarViaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 270, 210, -1));
 
         Fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticoviaje/Imagen/ticoviajesfondo.png"))); // NOI18N
         jPanel1.add(Fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -118,21 +98,11 @@ public class MantenimientoVista extends javax.swing.JFrame implements Observer {
         setVisible(false);
     }//GEN-LAST:event_RegresarActionPerformed
 
-    private void RemoverViajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoverViajeActionPerformed
-        controlador.remover_viaje();
-    }//GEN-LAST:event_RemoverViajeActionPerformed
-
-    private void RemoverChoferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoverChoferActionPerformed
-        controlador.remover_chofer();
-    }//GEN-LAST:event_RemoverChoferActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AgregarChofer;
     private javax.swing.JButton AgregarViaje;
     private javax.swing.JLabel Fondo;
     private javax.swing.JButton Regresar;
-    private javax.swing.JButton RemoverChofer;
-    private javax.swing.JButton RemoverViaje;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 

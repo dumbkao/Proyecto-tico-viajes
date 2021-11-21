@@ -19,7 +19,6 @@ public class VistaEncomiendas extends javax.swing.JFrame implements Observer {
         controlador.agregarObservador(this);
         setResizable(false);
         setLocationRelativeTo(null);
-        //setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setVisible(true);
     }
 
@@ -99,6 +98,9 @@ public class VistaEncomiendas extends javax.swing.JFrame implements Observer {
     private void btnEncomiendaViajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEncomiendaViajeActionPerformed
         if (controlador.encomienda_viaje() == true) {
             setVisible(false);
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "No se pueden ver las encomiendas de un viaje, no existen viajes", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnEncomiendaViajeActionPerformed
 

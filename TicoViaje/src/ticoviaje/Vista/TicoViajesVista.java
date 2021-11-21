@@ -2,6 +2,7 @@ package ticoviaje.Vista;
 
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JOptionPane;
 import ticoviaje.Controlador.*;
 
 public final class TicoViajesVista extends javax.swing.JFrame implements Observer {
@@ -85,6 +86,9 @@ public final class TicoViajesVista extends javax.swing.JFrame implements Observe
     private void TiquetesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TiquetesActionPerformed
         if (controlador.abrirTiquetes() == true) {
             setVisible(false);
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "No se pueden gestionar los tiquetes, no existen viajes", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_TiquetesActionPerformed
 

@@ -5,6 +5,7 @@ import java.util.Observable;
 import java.util.Observer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import ticoviaje.Controlador.BusControlador;
 import ticoviaje.Modelos.Viaje;
 
@@ -26,9 +27,6 @@ public class BusVista extends javax.swing.JFrame implements Observer {
     }
 
     public void iniciar() {
-        Ruta.setText(viaje.getRuta());
-        Dia.setText(viaje.getFecha());
-        Horario.setText(viaje.getHorario());
         verificarBotones();
         controlador.setPropietario(propietario);
         controlador.agregarObservador(this);
@@ -82,9 +80,6 @@ public class BusVista extends javax.swing.JFrame implements Observer {
         Asiento1 = new javax.swing.JButton();
         Asiento9 = new javax.swing.JButton();
         Unidad = new javax.swing.JLabel();
-        LabelRuta = new javax.swing.JLabel();
-        LabelDia = new javax.swing.JLabel();
-        LabelHorario = new javax.swing.JLabel();
         Ruta = new javax.swing.JLabel();
         Dia = new javax.swing.JLabel();
         Horario = new javax.swing.JLabel();
@@ -235,37 +230,22 @@ public class BusVista extends javax.swing.JFrame implements Observer {
         Unidad.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         Unidad.setForeground(new java.awt.Color(0, 0, 0));
         Unidad.setText("Unidad");
-        jPanel1.add(Unidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 60, -1, -1));
-
-        LabelRuta.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        LabelRuta.setForeground(new java.awt.Color(0, 0, 0));
-        LabelRuta.setText("Ruta:");
-        jPanel1.add(LabelRuta, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 150, -1, -1));
-
-        LabelDia.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        LabelDia.setForeground(new java.awt.Color(0, 0, 0));
-        LabelDia.setText("Dia:");
-        jPanel1.add(LabelDia, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 190, -1, -1));
-
-        LabelHorario.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        LabelHorario.setForeground(new java.awt.Color(0, 0, 0));
-        LabelHorario.setText("Horario:");
-        jPanel1.add(LabelHorario, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 230, -1, -1));
+        jPanel1.add(Unidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 60, -1, -1));
 
         Ruta.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         Ruta.setForeground(new java.awt.Color(0, 0, 0));
-        Ruta.setText("horario");
-        jPanel1.add(Ruta, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 230, -1, -1));
+        Ruta.setText("Horario: " + viaje.getHorario());
+        jPanel1.add(Ruta, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, -1, -1));
 
         Dia.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         Dia.setForeground(new java.awt.Color(0, 0, 0));
-        Dia.setText("ruta");
-        jPanel1.add(Dia, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 150, -1, -1));
+        Dia.setText("Ruta: " + viaje.getRuta());
+        jPanel1.add(Dia, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 150, -1, -1));
 
         Horario.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         Horario.setForeground(new java.awt.Color(0, 0, 0));
-        Horario.setText("dia");
-        jPanel1.add(Horario, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 190, -1, -1));
+        Horario.setText("Dia: " + viaje.getFecha());
+        jPanel1.add(Horario, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 190, -1, -1));
 
         botonAceptar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         botonAceptar.setText("Aceptar asientos");
@@ -274,7 +254,7 @@ public class BusVista extends javax.swing.JFrame implements Observer {
                 botonAceptarActionPerformed(evt);
             }
         });
-        jPanel1.add(botonAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 300, -1, -1));
+        jPanel1.add(botonAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 300, 190, -1));
 
         regresar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         regresar.setText("Regresar");
@@ -283,11 +263,11 @@ public class BusVista extends javax.swing.JFrame implements Observer {
                 regresarActionPerformed(evt);
             }
         });
-        jPanel1.add(regresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 350, -1, -1));
+        jPanel1.add(regresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 350, -1, -1));
 
         LabelFondo.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         LabelFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ticoviaje/Imagen/bus.png"))); // NOI18N
-        jPanel1.add(LabelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 530, 440));
+        jPanel1.add(LabelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 670, 440));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -460,10 +440,7 @@ public class BusVista extends javax.swing.JFrame implements Observer {
     private javax.swing.JButton Asiento9;
     private javax.swing.JLabel Dia;
     private javax.swing.JLabel Horario;
-    private javax.swing.JLabel LabelDia;
     private javax.swing.JLabel LabelFondo;
-    private javax.swing.JLabel LabelHorario;
-    private javax.swing.JLabel LabelRuta;
     private javax.swing.JLabel Ruta;
     private javax.swing.JLabel Unidad;
     private javax.swing.JButton botonAceptar;
@@ -473,6 +450,8 @@ public class BusVista extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (arg != null) {
+            JOptionPane.showMessageDialog(null, arg, "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

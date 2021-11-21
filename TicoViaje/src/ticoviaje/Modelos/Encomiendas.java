@@ -1,4 +1,4 @@
- package ticoviaje.Modelos;
+package ticoviaje.Modelos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,18 +37,20 @@ public class Encomiendas extends Observable {
     }
 
     public boolean encomienda_viaje() {
-        ArrayList<String> listaRuta = conjuntoViaje.getRutas();
-        String ruta = (String) JOptionPane.showInputDialog(null, "Elija la ruta que desea", "RUTAS", JOptionPane.QUESTION_MESSAGE, null, listaRuta.toArray(), listaRuta.get(0));
-        if (ruta != null) {
-            ArrayList<String> listaFecha = conjuntoViaje.getDiasRuta(ruta);
-            String fecha = (String) JOptionPane.showInputDialog(null, "Elija la fecha que desea", "FECHAS", JOptionPane.QUESTION_MESSAGE, null, listaFecha.toArray(), listaFecha.get(0));
-            if (fecha != null) {
-                ArrayList<String> listaHorarios = conjuntoViaje.getHorarioDiaRuta(ruta, fecha);
-                String horario = (String) JOptionPane.showInputDialog(null, "Elija el Horario que desea", "HORARIOS", JOptionPane.QUESTION_MESSAGE, null, listaHorarios.toArray(), listaHorarios.get(0));
-                if (horario != null) {
-                    EncomiendasViajeVista vista = new EncomiendasViajeVista(conjuntoViaje.obtenerViaje(ruta, fecha, horario));
-                    vista.iniciar();
-                    return true;
+        if (conjuntoViaje.getViajes().size() > 0) {
+            ArrayList<String> listaRuta = conjuntoViaje.getRutas();
+            String ruta = (String) JOptionPane.showInputDialog(null, "Elija la ruta que desea", "RUTAS", JOptionPane.QUESTION_MESSAGE, null, listaRuta.toArray(), listaRuta.get(0));
+            if (ruta != null) {
+                ArrayList<String> listaFecha = conjuntoViaje.getDiasRuta(ruta);
+                String fecha = (String) JOptionPane.showInputDialog(null, "Elija la fecha que desea", "FECHAS", JOptionPane.QUESTION_MESSAGE, null, listaFecha.toArray(), listaFecha.get(0));
+                if (fecha != null) {
+                    ArrayList<String> listaHorarios = conjuntoViaje.getHorarioDiaRuta(ruta, fecha);
+                    String horario = (String) JOptionPane.showInputDialog(null, "Elija el Horario que desea", "HORARIOS", JOptionPane.QUESTION_MESSAGE, null, listaHorarios.toArray(), listaHorarios.get(0));
+                    if (horario != null) {
+                        EncomiendasViajeVista vista = new EncomiendasViajeVista(conjuntoViaje.obtenerViaje(ruta, fecha, horario));
+                        vista.iniciar();
+                        return true;
+                    }
                 }
             }
         }
@@ -122,7 +124,6 @@ public class Encomiendas extends Observable {
     public final void agregarViajes() {
         cargarBD();
     }
-
 
     public void agregarObservador(Observer observer) {
         addObserver(observer);

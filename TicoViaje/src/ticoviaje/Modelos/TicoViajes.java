@@ -46,43 +46,43 @@ public class TicoViajes extends Observable {
     }
 
     public boolean abrirTiquetes() {
-        setChanged();
-        notifyObservers();
-        String nombre = JOptionPane.showInputDialog(null, "Digite su nombre:", "Nombre", JOptionPane.QUESTION_MESSAGE);
-        if (nombre != null && !nombre.equals("")) {
-            ArrayList<String> listaRuta = conjuntoViaje.getRutas();
-            String ruta = (String) JOptionPane.showInputDialog(null, "Elija la ruta que desea", "RUTAS", JOptionPane.QUESTION_MESSAGE, null, listaRuta.toArray(), listaRuta.get(0));
+        if (conjuntoViaje.getViajes().size() > 0) {
+            String nombre = JOptionPane.showInputDialog(null, "Digite su nombre:", "Nombre", JOptionPane.QUESTION_MESSAGE);
+            if (nombre != null && !nombre.equals("")) {
+                ArrayList<String> listaRuta = conjuntoViaje.getRutas();
+                String ruta = (String) JOptionPane.showInputDialog(null, "Elija la ruta que desea", "RUTAS", JOptionPane.QUESTION_MESSAGE, null, listaRuta.toArray(), listaRuta.get(0));
 
-            if (ruta != null) {
-                ArrayList<String> listaFecha = conjuntoViaje.getDiasRuta(ruta);
-                String fecha = (String) JOptionPane.showInputDialog(null, "Elija la fecha que desea", "FECHAS", JOptionPane.QUESTION_MESSAGE, null, listaFecha.toArray(), listaFecha.get(0));
+                if (ruta != null) {
+                    ArrayList<String> listaFecha = conjuntoViaje.getDiasRuta(ruta);
+                    String fecha = (String) JOptionPane.showInputDialog(null, "Elija la fecha que desea", "FECHAS", JOptionPane.QUESTION_MESSAGE, null, listaFecha.toArray(), listaFecha.get(0));
 
-                if (fecha != null) {
-                    ArrayList<String> listaHorarios = conjuntoViaje.getHorarioDiaRuta(ruta, fecha);
-                    String horario = (String) JOptionPane.showInputDialog(null, "Elija el Horario que desea", "HORARIOS", JOptionPane.QUESTION_MESSAGE, null, listaHorarios.toArray(), listaHorarios.get(0));
+                    if (fecha != null) {
+                        ArrayList<String> listaHorarios = conjuntoViaje.getHorarioDiaRuta(ruta, fecha);
+                        String horario = (String) JOptionPane.showInputDialog(null, "Elija el Horario que desea", "HORARIOS", JOptionPane.QUESTION_MESSAGE, null, listaHorarios.toArray(), listaHorarios.get(0));
 
-                    if (horario != null) {
-                        Viaje viaje = conjuntoViaje.obtenerViaje(ruta, fecha, horario);
-                        BusVista vista = new BusVista(nombre, viaje);
-                        vista.getControlador().setDatos(viaje.getUnidad());
-                        vista.iniciar();
-                        conexion.cerrar();
-                        return true;
+                        if (horario != null) {
+                            Viaje viaje = conjuntoViaje.obtenerViaje(ruta, fecha, horario);
+                            BusVista vista = new BusVista(nombre, viaje);
+                            vista.getControlador().setDatos(viaje.getUnidad());
+                            vista.iniciar();
+                            conexion.cerrar();
+                            return true;
+                        }
                     }
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe digitar un nombre valido", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Debe digitar un nombre valido", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return false;
     }
-    
+
     public void mantenimiento() {
         MantenimientoVista vista = new MantenimientoVista(conjuntoViaje, choferes, flotilla);
         vista.iniciar();
         conexion.cerrar();
     }
-    
+
     public final void cargarViajes() {
         Statement st;
         ResultSet rs;
@@ -102,6 +102,8 @@ public class TicoViajes extends Observable {
                 viaje.setUnidad(unidad);
                 conjuntoViaje.add(viaje);
             }
+            rs.close();
+            st.close();
 
         } catch (SQLException e) {
             System.out.println(e);
@@ -129,6 +131,8 @@ public class TicoViajes extends Observable {
                 notifyObservers();
                 return unidad;
             }
+            rs.close();
+            st.close();
 
         } catch (SQLException e) {
             System.out.println(e);
@@ -153,6 +157,8 @@ public class TicoViajes extends Observable {
                 notifyObservers();
                 return chofer;
             }
+            rs.close();
+            st.close();
 
         } catch (SQLException e) {
             System.out.println(e);
@@ -178,6 +184,8 @@ public class TicoViajes extends Observable {
                 setChanged();
                 notifyObservers();
             }
+            rs.close();
+            st.close();
             return asientos;
 
         } catch (SQLException e) {
@@ -186,8 +194,8 @@ public class TicoViajes extends Observable {
 
         return null;
     }
-    
-     public final void cargarFlotilla() {
+
+    public final void cargarFlotilla() {
         Statement st;
         ResultSet rs;
 
@@ -206,6 +214,8 @@ public class TicoViajes extends Observable {
                 setChanged();
                 notifyObservers();
             }
+            rs.close();
+            st.close();
 
         } catch (SQLException e) {
             System.out.println(e);
@@ -213,8 +223,8 @@ public class TicoViajes extends Observable {
         setChanged();
         notifyObservers();
     }
-     
-     public final void cargarListaChoferes() {
+
+    public final void cargarListaChoferes() {
         Statement st;
         ResultSet rs;
 
@@ -231,6 +241,8 @@ public class TicoViajes extends Observable {
                 setChanged();
                 notifyObservers();
             }
+            rs.close();
+            st.close();
 
         } catch (SQLException e) {
             System.out.println(e);

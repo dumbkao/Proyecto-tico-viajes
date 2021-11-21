@@ -71,6 +71,8 @@ public class EncomiendasCliente extends Observable {
                 if (opc.equals("En Viaje")) {
                     if (agregar_encomienda_a_viaje(tabla, fila) == false) {
                         opc = cliente.getEncomiendas().getEncomiendas().get(fila).isEstadoViaje();
+                        setChanged();
+                        notifyObservers("No se puede agregar a un viaje, no existen viajes");
                     }
                 }
                 Statement st;
@@ -127,7 +129,7 @@ public class EncomiendasCliente extends Observable {
                         stm.setString(6, timeStamp);
                         stm.setString(7, estadoViaje);
                         stm.setInt(8, posicion);
-                        
+
                         // Se verifica si se logra insertar correctamente en la base de datos y una unica vez
                         if (stm.executeUpdate() != 1) {
                             throw new Exception();
@@ -141,29 +143,31 @@ public class EncomiendasCliente extends Observable {
     }
 
     public boolean agregar_encomienda_a_viaje(JTable tabla, int fila) throws SQLException, Exception {
-        ArrayList<String> listaRuta = viajes.getRutas();
-        String ruta = (String) JOptionPane.showInputDialog(null, "Elija la ruta del viaje al que desea agregar la encomienda: ", "RUTAS", JOptionPane.QUESTION_MESSAGE, null, listaRuta.toArray(), listaRuta.get(0));
-        if (ruta != null) {
-            ArrayList<String> listaFecha = viajes.getDiasRuta(ruta);
-            String dia = (String) JOptionPane.showInputDialog(null, "Elija el dia del viaje al que desea agregar la encomienda: ", "DIAS", JOptionPane.QUESTION_MESSAGE, null, listaFecha.toArray(), listaFecha.get(0));
-            if (dia != null) {
-                ArrayList<String> listaHorarios = viajes.getHorarioDiaRuta(ruta, dia);
-                String horario = (String) JOptionPane.showInputDialog(null, "Elija el horario del viaje al que desea agregar la encomienda: ", "HORARIOS", JOptionPane.QUESTION_MESSAGE, null, listaHorarios.toArray(), listaHorarios.get(0));
-                if (horario != null) {
-                    Viaje viaje = viajes.obtenerViaje(ruta, dia, horario);
-                    viaje.agregarEncomienda(cliente.getEncomiendas().getEncomiendas().get(fila));
-                    Statement st;
-                    st = cn.getConexion().createStatement();
-                    PreparedStatement stm = cn.getConexion().prepareStatement(COMANDO_ACTUALIZAR_2);
-                    stm.setInt(1, obtener_llave(viaje));
-                    stm.setInt(2, viaje.getEncomiendas().getEncomiendas().get(fila).getCodigo());
+        if (viajes.getViajes().size() > 0) {
+            ArrayList<String> listaRuta = viajes.getRutas();
+            String ruta = (String) JOptionPane.showInputDialog(null, "Elija la ruta del viaje al que desea agregar la encomienda: ", "RUTAS", JOptionPane.QUESTION_MESSAGE, null, listaRuta.toArray(), listaRuta.get(0));
+            if (ruta != null) {
+                ArrayList<String> listaFecha = viajes.getDiasRuta(ruta);
+                String dia = (String) JOptionPane.showInputDialog(null, "Elija el dia del viaje al que desea agregar la encomienda: ", "DIAS", JOptionPane.QUESTION_MESSAGE, null, listaFecha.toArray(), listaFecha.get(0));
+                if (dia != null) {
+                    ArrayList<String> listaHorarios = viajes.getHorarioDiaRuta(ruta, dia);
+                    String horario = (String) JOptionPane.showInputDialog(null, "Elija el horario del viaje al que desea agregar la encomienda: ", "HORARIOS", JOptionPane.QUESTION_MESSAGE, null, listaHorarios.toArray(), listaHorarios.get(0));
+                    if (horario != null) {
+                        Viaje viaje = viajes.obtenerViaje(ruta, dia, horario);
+                        viaje.agregarEncomienda(cliente.getEncomiendas().getEncomiendas().get(fila));
+                        Statement st;
+                        st = cn.getConexion().createStatement();
+                        PreparedStatement stm = cn.getConexion().prepareStatement(COMANDO_ACTUALIZAR_2);
+                        stm.setInt(1, obtener_llave(viaje));
+                        stm.setInt(2, viaje.getEncomiendas().getEncomiendas().get(fila).getCodigo());
 
-                    if (stm.executeUpdate() != 1) {
-                        throw new Exception();
+                        if (stm.executeUpdate() != 1) {
+                            throw new Exception();
+                        }
+                        setChanged();
+                        notifyObservers("Se ha agregado la encomienda al viaje");
+                        return true;
                     }
-                    setChanged();
-                    notifyObservers("Se ha agregado la encomienda al viaje");
-                    return true;
                 }
             }
         }
