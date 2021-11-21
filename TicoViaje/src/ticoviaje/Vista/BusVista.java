@@ -32,7 +32,6 @@ public class BusVista extends javax.swing.JFrame implements Observer {
         verificarBotones();
         controlador.setPropietario(propietario);
         controlador.agregarObservador(this);
-        //setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
@@ -59,7 +58,6 @@ public class BusVista extends javax.swing.JFrame implements Observer {
         botones.add(Asiento9);
         botones.add(Asiento10);
         botones.add(Asiento11);
-
         for (int i = 0; i < 11; i++) {
             if (controlador.getAsientos().get(i).isDisponible() == false) {
                 botones.get(i).setIcon(icono_rojo);

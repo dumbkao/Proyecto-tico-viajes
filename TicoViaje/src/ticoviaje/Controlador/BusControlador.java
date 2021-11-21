@@ -39,14 +39,6 @@ public class BusControlador {
         datos.setPlaca(placa);
     }
 
-    public int getNumeroUnico() {
-        return datos.getNumeroUnico();
-    }
-
-    public void setNumeroUnico(int numeroUnico) {
-        datos.setNumeroUnico(numeroUnico);
-    }
-
     public int getCapacidad() {
         return datos.getCapacidad();
     }

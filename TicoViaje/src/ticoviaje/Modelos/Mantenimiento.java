@@ -11,7 +11,6 @@ import ticoviaje.Vista.TicoViajesVista;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import ticoviaje.Objetos.Asiento;
 
 public class Mantenimiento extends Observable {
 

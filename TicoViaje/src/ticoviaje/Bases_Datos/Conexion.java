@@ -30,6 +30,7 @@ public class Conexion {
         try {
             conexion.close();
         } catch (SQLException exc) {
+            System.err.println(exc);
         } finally {
             conexion = null;
         }

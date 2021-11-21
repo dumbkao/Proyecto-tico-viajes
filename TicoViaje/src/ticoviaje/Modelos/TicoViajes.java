@@ -42,6 +42,7 @@ public class TicoViajes extends Observable {
         notifyObservers();
         VistaEncomiendas vista = new VistaEncomiendas();
         vista.iniciar();
+        conexion.cerrar();
     }
 
     public boolean abrirTiquetes() {
@@ -61,9 +62,11 @@ public class TicoViajes extends Observable {
                     String horario = (String) JOptionPane.showInputDialog(null, "Elija el Horario que desea", "HORARIOS", JOptionPane.QUESTION_MESSAGE, null, listaHorarios.toArray(), listaHorarios.get(0));
 
                     if (horario != null) {
-                        BusVista vista = new BusVista(nombre, conjuntoViaje.obtenerViaje(ruta, fecha, horario));
-                        vista.getControlador().setDatos(flotilla.getEspecifico(0));
+                        Viaje viaje = conjuntoViaje.obtenerViaje(ruta, fecha, horario);
+                        BusVista vista = new BusVista(nombre, viaje);
+                        vista.getControlador().setDatos(viaje.getUnidad());
                         vista.iniciar();
+                        conexion.cerrar();
                         return true;
                     }
                 }
@@ -77,6 +80,7 @@ public class TicoViajes extends Observable {
     public void mantenimiento() {
         MantenimientoVista vista = new MantenimientoVista(conjuntoViaje, choferes, flotilla);
         vista.iniciar();
+        conexion.cerrar();
     }
     
     public final void cargarViajes() {

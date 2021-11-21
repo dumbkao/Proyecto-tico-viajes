@@ -5,19 +5,24 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
 import javax.swing.JOptionPane;
+import ticoviaje.Bases_Datos.Conexion;
 import ticoviaje.Objetos.Asiento;
 import ticoviaje.Objetos.Chofer;
 import ticoviaje.Vista.TicketVista;
 import ticoviaje.Vista.TicoViajesVista;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
 
 public class Bus extends Observable {
 
     private String estado, placa;
-    private int numeroUnico;
     private int capacidad;
     private ArrayList<Asiento> asientos;
     private Chofer chofer;
     private String propietario;
+    private Conexion conexion;
 
     public String getPropietario() {
         return propietario;
@@ -30,7 +35,6 @@ public class Bus extends Observable {
     public Bus() {
         this.estado = "Disponible";
         this.placa = placaAleatoria();
-        this.numeroUnico = 0;
         this.capacidad = 11;
         this.chofer = new Chofer();
         this.asientos = new ArrayList();
@@ -40,6 +44,7 @@ public class Bus extends Observable {
             asiento.setIdAsiento(i + 1);
             asientos.add(asiento);
         }
+        conexion = new Conexion();
     }
 
     public ArrayList<Asiento> getAsientos() {
@@ -89,16 +94,6 @@ public class Bus extends Observable {
         notifyObservers("Actualizando Bus");
     }
 
-    public int getNumeroUnico() {
-        return numeroUnico;
-    }
-
-    public void setNumeroUnico(int numeroUnico) {
-        this.numeroUnico = numeroUnico;
-        setChanged();
-        notifyObservers("Actualizando Bus");
-    }
-
     public int getCapacidad() {
         return capacidad;
     }
@@ -129,10 +124,12 @@ public class Bus extends Observable {
         JOptionPane.showMessageDialog(null, "Los asientos han sido seleccionados");
         TicketVista vista = new TicketVista();
         vista.iniciar(viaje, propietario, asientos_propietario());
+        guardarAsientos();
     }
     public void regresar(){
         TicoViajesVista vista = new TicoViajesVista();
         vista.iniciar();
+        conexion.cerrar();
     }
     
     public String asientos_propietario() {
@@ -143,5 +140,39 @@ public class Bus extends Observable {
             }
         }
         return informacion;
+    }
+    
+    public void guardarAsientos() {
+        try {
+            PreparedStatement statement = conexion.getConexion().prepareStatement("UPDATE asientos SET propietario = ?, disponible = ? WHERE idBus = ? and numero = ?");
+            for (Asiento asiento : asientos) {
+                if (asiento.getPropetario().equals(propietario)) {
+                    statement.setString(1, propietario);
+                    statement.setBoolean(2, false);
+                    statement.setInt(3, obtenerLlaveBus(placa));
+                    statement.setInt(4, asiento.getIdAsiento());
+                    if (statement.executeUpdate() != 1) {
+                        throw new SQLException();
+                    }
+                }
+            }
+        }
+        catch (SQLException e) {
+            System.err.println(e);
+        }
+    }
+    
+    public int obtenerLlaveBus(String placa) {
+        try {
+            Statement statement = conexion.getConexion().createStatement();
+            ResultSet query = statement.executeQuery("SELECT * FROM buses WHERE placa = \"" + placa + "\";");
+            if (query.next()) {
+                return query.getInt("idbuses");
+            }
+        }
+        catch (SQLException e) {
+            System.err.println(e);
+        }
+        return 0;
     }
 }

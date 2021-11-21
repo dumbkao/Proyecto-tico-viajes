@@ -69,7 +69,7 @@ public class TicketVista extends javax.swing.JFrame implements Observer {
 
         ruta.setForeground(new java.awt.Color(255, 255, 255));
         ruta.setText(controlador.getViajeUsuario().getRuta());
-        pnlPrincipal.add(ruta, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 90, 40));
+        pnlPrincipal.add(ruta, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 150, 40));
 
         labelFecha.setForeground(new java.awt.Color(255, 255, 255));
         labelFecha.setText("Fecha:");
@@ -92,7 +92,7 @@ public class TicketVista extends javax.swing.JFrame implements Observer {
         pnlPrincipal.add(labelBus, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, -1, -1));
 
         numero_bus.setForeground(new java.awt.Color(255, 255, 255));
-        numero_bus.setText(controlador.getViajeUsuario().getUnidad().getNumeroUnico() + "");
+        numero_bus.setText(controlador.getViajeUsuario().getUnidad().getPlaca() + "");
         pnlPrincipal.add(numero_bus, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 210, -1, -1));
 
         labelChofer.setForeground(new java.awt.Color(255, 255, 255));
